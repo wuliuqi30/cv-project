@@ -1,0 +1,15 @@
+Tasks: 
+
+- Create a general information form that updates the right side. 
+- create an edit and delete button for a right side element
+
+
+- In the form, the state of the form itself doesn't change the cv state, which is maintained at the highest level. The form has its own internal state. But when you click "submit" on the form, the takes whatver was in the form state and applies it to the overall state. The form is like a temporary state. 
+
+10/14
+- move the form info state higher up 
+- reset the form input info to some default every time its disabled, like empty or a placeholder
+
+- make the edit button disappear after clicking it
+
+- make a cancel button on the left side that removes the submit button, sets the general form to disabled, and 
