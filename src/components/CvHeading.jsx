@@ -1,44 +1,26 @@
-import { useState,useRef } from 'react';
+import { ReusableEditableSection } from './ReusableEditableSection';
 
-export function CvHeading({firstName,lastName,editMode, onEdit,}){
+export function CvHeading({ firstName, lastName, editMode, onEdit, }) {
 
-    const [hoverButtonsVisible, setHoverButtonsVisible] = useState(false);
-    const timeoutRef = useRef(null);
-    const buttonDisappearTimerMs = 500;
+    const suppressDebugOutput = true;
 
-    const makeButtonsAppearHandler = () => {
 
-        if(timeoutRef.current){
-            clearTimeout(timeoutRef.current);
-        }
-        setHoverButtonsVisible(true);
+    if (!suppressDebugOutput) {
+        console.log(firstName, lastName)
     }
 
-    const handleMouseLeave = () => {
-        timeoutRef.current = setTimeout(()=>{
-            setHoverButtonsVisible(false);
-        },buttonDisappearTimerMs)
-        
-    }
-
-    console.log("Calling cvheading with values: ");
-    console.log(firstName,lastName)
     return (
         <>
-        <section className="cv-heading" 
-        onMouseEnter={makeButtonsAppearHandler}
-        onMouseLeave={handleMouseLeave}>
-            {firstName + ' ' + lastName}
-        </section>
-        { (!editMode && hoverButtonsVisible) && 
-        <button 
-        className="cv-edit-button" 
-        onClick={onEdit}
-        onMouseEnter={makeButtonsAppearHandler}
-        
-        >
-            Edit
-        </button>}
+            <ReusableEditableSection 
+            sectionClassName="cv-heading"
+            editMode={editMode}
+            handleEditClick={onEdit}>
+
+                {firstName + ' ' + lastName}
+
+            </ReusableEditableSection>
+
+
         </>
     )
 }
