@@ -1,30 +1,48 @@
-import { useState, useRef } from 'react';
-import { List } from '../List';
 
-export function Experience({ company,
+import { List } from '../List';
+import { ReusableEditableSection } from './ReusableEditableSection';
+
+export function Experience({ id, company,location,title,
     startDate,
     endDate,
-    bulletItems
+    bulletItems,
+    editSelectorIndex,
+    onExperienceEdit
 }) {
     const suppressOutput = true;
 
-    if (!suppressOutput){
-    console.log("Entered Experience component");
-    console.log(`rendering experience component: ${company} ${startDate} ${endDate} ${bulletItems}`)
+    // const editMode = editSelectorIndex === id ? true : false;
+
+    if (!suppressOutput) {
+        console.log("Entered Experience component");
+        console.log(`id is ${id} editSelecor is ${editSelectorIndex}`)
+        console.log(`rendering experience component: ${company} ${startDate} ${endDate} ${bulletItems}`)
     }
     // Contains info about: 
     // company, dates worked (mm/yyyy - mm/yyyy)
     // bullet points of specific tasks completed (which is an array)
+
+    const handleEditClick = () =>{
+        console.log("In Experience.jsx click handler");
+        console.log(`id is ${id}`)
+        onExperienceEdit(id);
+    }
+
     return (
-        <div className="experience">
-            <p>{company + ', ' + startDate + '-' + endDate}</p>
-            <List>
+        <ReusableEditableSection
+            sectionClassName="experience"
+            editSelectorIndex={editSelectorIndex}
+            handleEditClick={handleEditClick}>
+            
+            <List listClass='experience-list' titleDiv={<p 
+            className = 'experience-info-heading'>
+                {startDate + '-' + endDate + ' | ' + title + ' - ' + company + ', ' + location}</p>}>
                 {
-                bulletItems.map(
-                    (item, index) =><p key={index}>{item}</p>   
-                )}
+                    bulletItems.map(
+                        (item, index) => <p className="experience-bullet" key={index}>{item}</p>
+                    )}
             </List>
-        </div>
+        </ReusableEditableSection>
     )
 
 }

@@ -1,4 +1,4 @@
-export function List({ children }) {
+export function List({ titleDiv, listClass, children }) {
     //handleAddItemClick,addItemText temporarily disable
     const suppressOutput = true;
     if (!suppressOutput) {
@@ -8,10 +8,12 @@ export function List({ children }) {
     }
     //List returns a list of whatever plus a button that can be used to add a new item to the list.
     return (
-        <>
-            <ul>
+        <div className="list">
+            {titleDiv}
+            <ul className={listClass}>
                 {children.map((child, index) => {
-                    return (<li key={index}>
+                    return (
+                    <li key={index}>
                         {child}
                     </li>
                     )
@@ -20,6 +22,6 @@ export function List({ children }) {
             {/* <button className="add-li-button" onClick={handleAddItemClick}>
                 {addItemText}
             </button> */}
-        </>
+        </div>
     )
 }

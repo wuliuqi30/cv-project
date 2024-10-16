@@ -3,16 +3,22 @@ import { useState } from 'react';
 import { SubmitAndCancelButtonRow } from './SubmitAndCancelButtonRow';
 import { defaultExperiencesInfo } from './defaultData';
 import { BasicTextInputRow } from './BasicTextInputRow';
+import { editSelectorNames } from '../constants';
 
 export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
+    const suppressOutput = true;
 
     // formInfo here is an array of many possible different experiences. The one displayed will go into formTempInfo, which is not an array, but a single object.
-    const editMode = editSelector > -1 ? true : false;
-    const suppressOutput = true;
+    const editMode = editSelector.sectionName === editSelectorNames.experienceInfo ? true : false;
+    
 
 
     const [formInfo, setFormInput] = useState(defaultExperiencesInfo);
     const [formTempInfo, setFormTempInput] = useState(defaultExperiencesInfo);
+
+
+    const [startDate, setStartDate] = useState(new Date("2014/02/08"));
+    const [endDate, setEndDate] = useState(null);
 
     const handleTempInfoChange = (e) => {
 
@@ -23,7 +29,7 @@ export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
             console.log(`name ${name}  and value: ${value}`);
         }
         let formCopy = [...formTempInfo];
-        formCopy[editSelector] = {...formCopy[editSelector], [name]:value};
+        formCopy[editSelector.index] = {...formCopy[editSelector.index], [name]:value};
         setFormTempInput(formCopy);
     };
 
@@ -52,24 +58,35 @@ export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
     if (!suppressOutput) {
         console.log("calling ExperienceForm with this defaultExperienceInfo:");
         console.table(defaultExperiencesInfo);
-        console.log(`editSelector is ${editSelector}`)
+        console.log(`editSelector is ${editSelector.index} and editMode is ${editMode}`)
+        console.log(editSelector.index);
+       
         console.log("the current form data is: ");
         console.table(formInfo);
         console.log("the current temp form data is: ");
         console.table(formTempInfo);
+        console.log(`formTempInfo[editSelector].company is ${!editMode ? "" : formTempInfo[editSelector.index].company}`)
     }
     return (
 
         <form onSubmit={handleFormSubmit}>
-            {//temporarily see if this works
-            }
+            <h2>Edit Experience</h2>
             {/* <input onChange={handleTempInfoChange} value={formTempInfo.company}/> */}
+
             <BasicTextInputRow
                 labelText={"Company Name"}
                 placeholderText={"?"}
                 handleInputTextChange={handleTempInfoChange}
-                inputText={!editMode ? "" : formTempInfo[editSelector].company}
+                inputText={!editMode ? "" : formTempInfo[editSelector.index].company}
                 htmlForIdentifier={"company"}
+                disabled={!editMode}
+                required />
+            <BasicTextInputRow
+                labelText={"Job Title"}
+                placeholderText={"?"}
+                handleInputTextChange={handleTempInfoChange}
+                inputText={!editMode ? "" : formTempInfo[editSelector.index].title}
+                htmlForIdentifier={"title"}
                 disabled={!editMode}
                 required />
             {editMode &&

@@ -4,6 +4,8 @@ html{
   --left-column-width: 200px;
   --right-column-width: calc(var(--cv-width) - var(--left-column-width));
   --edit-submit-button-font-size: 10px;
+  --edit-section-gap: 10px;
+  --list-padding: 3px;
   
   /* Buttons */
   --submit-button-color: white;
@@ -17,6 +19,10 @@ html{
 
   /* Fonts */
   font-size: var(--description-font-size);
+  --experience-section-title-font-size: 1.7rem;
+  --experience-info-title-font-size: 1.4rem;
+  --experience-bullet-font-size: 1rem;
+
 
   /* Input Information Cards */
   --input-card-padding: 20px;
@@ -31,6 +37,56 @@ html{
   display:flex;
   gap: 30px;
   
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.list{
+  display:flex;
+  flex-direction: column;
+  /* border: 2px solid black; */
+  padding: var(--list-padding);
+}
+
+.experience-section-title{
+  /* color: red; */
+  /* border: 2px solid red; */
+  font-size: var(--experience-section-title-font-size);
+}
+
+.experience-info-heading{
+  /* color: green; */
+  /* border: 2px solid green; */
+  font-size: var(--experience-info-title-font-size);
+  text-align: left;
+}
+
+.experience-bullet{
+  /* color: blue; */
+  /* border: 2px solid blue; */
+  font-size: var(--experience-bullet-font-size);
+  text-align: left;
+
+  
+}
+
+.experience-section{
+  grid-column: 2 / 3;
+}
+
+.experience-list{
+  padding-left: 15px;
+  list-style-type: disc;
 }
 
 .logo {
@@ -57,6 +113,10 @@ html{
 .edit-cv-section{
   width: 400px;
   border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: var(--edit-section-gap);
+  padding: 20px;
 }
 
 
@@ -65,8 +125,9 @@ html{
   height: 50px;
 }
 
-.general-info-card{
+.input-section-card{
   padding:var(--input-card-padding);
+  border: 2px solid black;
 }
 
 .cv-heading{
@@ -88,15 +149,7 @@ html{
   gap: 5px;
 }
 
-.experience-section{
-  grid-column: 2 / 3;
-}
 
-.experience{
-
-  color: black;
-
-}
 
 .editable-section{
   display: flex;

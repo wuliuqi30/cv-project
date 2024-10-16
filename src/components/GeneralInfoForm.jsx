@@ -1,25 +1,28 @@
-import React from 'react';
 import { useState } from 'react';
 import { BasicTextInputRow } from './BasicTextInputRow';
 import { SubmitAndCancelButtonRow } from './SubmitAndCancelButtonRow';
 import { defaultGeneralInfo } from './defaultData';
+import { editSelectorNames } from '../constants';
 
-export function GeneralInfoForm({ editMode, onDataSubmit, onDataCancel }) {
+export function GeneralInfoForm({ editSelector, onDataSubmit, onDataCancel }) {
     const suppressOutput = true;
+
+    // Are we in edit mode for this section?
+    const editMode = editSelector.sectionName === editSelectorNames.generalInfo ? true : false;
 
     const [formInfo, setFormInput] = useState(defaultGeneralInfo);
     const [formTempInfo, setFormTempInput] = useState(defaultGeneralInfo);
 
     const handleGeneralInfoChange = (e) => {
-        
+
         const { name, value, id, placeholder } = e.target;
         if (!suppressOutput) {
             console.log("Changing Form Temp Info");
             console.log(e.target);
             console.log(`name ${name}  and value: ${value} and id ${id} and placeholder ${placeholder}`);
-            
+
         }
-        
+
         setFormTempInput((prev) => ({
             ...prev, [name]: value,
         }));
@@ -42,16 +45,18 @@ export function GeneralInfoForm({ editMode, onDataSubmit, onDataCancel }) {
         onDataCancel();
     }
 
-
-    // console.log("calling generalInfoForm with this generalInfoDataObject:");
-    // console.table(defaultGeneralInfo);
-    // console.log("the current form data is: ");
-    // console.table(formInfo);
-    // console.log("the current temp form data is: ");
-    // console.table(formTempInfo);
+    if (!suppressOutput) {
+        console.log("calling generalInfoForm with this generalInfoDataObject:");
+        console.table(defaultGeneralInfo);
+        console.log("the current form data is: ");
+        console.table(formInfo);
+        console.log("the current temp form data is: ");
+        console.table(formTempInfo);
+    }
     return (
 
         <form onSubmit={handleFormSubmit}>
+            <h2>Edit General Information</h2>
             <BasicTextInputRow
                 labelText={"First Name"}
                 placeholderText={"Type First Name Here"}
