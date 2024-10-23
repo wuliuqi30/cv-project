@@ -21,7 +21,7 @@ export function CvExperienceSection({ experiences, editSelector, onEdit }) {
     return (
         <div className='experience-section'
             >
-            <List titleDiv={<div className='experience-section-title'>Experiences</div>}>
+            <List titleDiv={<div className='cv-section-title'>Experiences</div>}>
                 {experiences.map((experience) => {
                     if (!suppressOutput) {
                         console.log(`Mapping experience data: ${experience}`);

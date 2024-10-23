@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 export function ReusableEditableSection({ children, sectionClassName, editSelectorIndex, handleEditClick }) {
 
-    const suppressOutput = true;
+    const suppressOutput = false;
 
     const [hoverButtonsVisible, setHoverButtonsVisible] = useState(false);
     const timeoutRef = useRef(null);
@@ -12,16 +12,16 @@ export function ReusableEditableSection({ children, sectionClassName, editSelect
             clearTimeout(timeoutRef.current);
         }
         if (!suppressOutput) {
-        console.log(`Mouse Entered! editSelectorIndex is ${editSelectorIndex}`)
+            console.log(`Mouse Entered! editSelectorIndex is ${editSelectorIndex}`)
         }
         // Only make buttons appear if nothing is being edited.
-        if(editSelectorIndex < 0){
+        if (editSelectorIndex < 0) {
             if (!suppressOutput) {
                 console.log("Setting hover buttons to true");
             }
             setHoverButtonsVisible(true);
         }
-        
+
     }
 
     const handleMouseLeave = () => {
@@ -42,17 +42,18 @@ export function ReusableEditableSection({ children, sectionClassName, editSelect
 
     if (!suppressOutput) {
 
-        console.log(`in an object with class ${sectionClassName} editSelectorIndex is ${editSelectorIndex} and hoverButtonsVisible is ${hoverButtonsVisible}`)
-        console.log("child[0] of this ResusableEditSection is", children[0].props)
+
     }
+
     return (
-        <>
+        <div className='editable-section' 
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
             <section
                 className={sectionClassName}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}>
+                >
                 {children}
-
+                
             </section>
             {hoverButtonsVisible &&
                 <button
@@ -63,7 +64,7 @@ export function ReusableEditableSection({ children, sectionClassName, editSelect
                 >
                     Edit
                 </button>}
-        </>
+        </div>
     )
 
 

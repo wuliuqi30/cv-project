@@ -4,7 +4,6 @@ export const defaultGeneralInfo = {
     lastName: 'Sangani',
 }
 
-
 export const defaultExperiencesInfo = [
     {   
         id: 0,
@@ -32,3 +31,28 @@ export const defaultExperiencesInfo = [
         ]       
     }
 ];
+
+export const defaultEducationInfo = [
+    {
+        id: 0,
+        school: "University of Arizona",
+        degree: "Master of Science",
+        major: "Electrical and Computer Engineering",
+        gpa: 3.89,
+        location: "Tucson, AZ",
+        startDate: new Date(2015,8),
+        endDate: new Date(2019,5)
+    }, 
+    {
+        id: 1,
+        school: "Cornell University",
+        degree: "Bachelor of Science",
+        major: "Electrical and Computer Engineering",
+        gpa: 3.59,
+        location: "Ithaca, NY",
+        startDate: new Date(2009,8),
+        endDate: new Date(2013,5)
+    }
+
+
+]

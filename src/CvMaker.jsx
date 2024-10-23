@@ -2,12 +2,12 @@ import './CvMaker.css'
 import { GeneralInfoForm } from './components/GeneralInfoForm';
 import { useState } from 'react';
 import { CvHeading } from './components/CvHeading';
-import { defaultGeneralInfo, defaultExperiencesInfo } from './components/defaultData';
+import { defaultGeneralInfo, defaultExperiencesInfo,defaultEducationInfo } from './components/defaultData';
 import { CvExperienceSection } from './components/CvExperienceSection';
 import { ExperiencesForm } from './components/ExperiencesForm';
 import { editSelectorNames } from './constants';
-
-
+import { CvEducationSection } from './components/CvEducationSection';
+import { EducationForm } from './components/EducationForm';
 function CvMaker() {
 
 
@@ -81,7 +81,25 @@ function CvMaker() {
 
   }
 
+// ----------------------------- Education -----------------------------------
 
+// Handle Submit Form Data
+  const handleEducationInputDataSubmit = (newData) => {
+    setEducationCvObject(newData);
+    setEditSelectorMain(nothingBeingSelected);
+  }
+
+  // Education In CV:
+const [educationCvDataObject, setEducationCvObject] = useState(defaultEducationInfo);
+
+
+const handleEducationDataEditClick = (arg) => {
+    // Essentially this sets edit mode true in the edit form. 
+    console.log("---------Edit Button pressed on an education!---------")
+    console.log(`arg is ${arg}`)
+    setEditSelectorMain({sectionName: editSelectorNames.educationInfo, index: arg});
+
+}
 
 
   return (
@@ -102,6 +120,15 @@ function CvMaker() {
 
           />
         </div>
+        <div className="input-section-card">
+          <EducationForm
+            editSelector={editSelectorMain}
+            onDataSubmit={handleEducationInputDataSubmit}
+            onDataCancel={handleCancelEditInput}
+
+          />
+        </div>
+
       </section>
 
       <section className="cv">
@@ -113,11 +140,17 @@ function CvMaker() {
           editSelector={editSelectorMain}
           onEdit={handleGeneralInfoRelatedDataEditClick}
         />
+        <CvEducationSection
+          educations={educationCvDataObject}
+          editSelector={editSelectorMain}
+          onEdit={handleEducationDataEditClick}
+        />
         <CvExperienceSection
           experiences={experiencesCvDataObject}
           editSelector={editSelectorMain}
           onEdit={handleExperiencesRelatedDataEditClick}
         />
+        
 
       </section>
     </>

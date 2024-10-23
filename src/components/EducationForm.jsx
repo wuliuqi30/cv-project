@@ -1,28 +1,24 @@
 
 import { useState } from 'react';
 import { SubmitAndCancelButtonRow } from './SubmitAndCancelButtonRow';
-import { defaultExperiencesInfo } from './defaultData';
+import { defaultEducationInfo, defaultExperiencesInfo } from './defaultData';
 import { BasicTextInputRow } from './BasicTextInputRow';
 import { editSelectorNames } from '../constants';
 import { AddDuty } from './AddDuty';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 
-export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
-    const suppressOutput = false;
+export function EducationForm({ editSelector, onDataSubmit, onDataCancel }) {
+    const suppressOutput = true;
 
     // formInfo here is an array of many possible different experiences. The one displayed will go into formTempInfo, which is not an array, but a single object.
-    const editMode = editSelector.sectionName === editSelectorNames.experienceInfo ? true : false;
-
-
-    // Make a deep copy of the default: 
+    const editMode = editSelector.sectionName === editSelectorNames.educationInfo ? true : false;
 
 
 
+    const [formInfo, setFormInput] = useState(defaultEducationInfo);
 
-    const [formInfo, setFormInput] = useState(defaultExperiencesInfo);
-
-    const defaultCopyForTempInfo = structuredClone(defaultExperiencesInfo);
+    const defaultCopyForTempInfo = structuredClone(defaultEducationInfo);
 
     const [formTempInfo, setFormTempInput] = useState(defaultCopyForTempInfo);
 
@@ -46,21 +42,7 @@ export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
         );
     };
 
-    const handleBulletChange = (e) => {
-        if (!suppressOutput) {
-            console.log("in handlebulletchange, Event e is:")
-            console.log(e);
-        }
-        const { name, value, id } = e.target;
-        if (!suppressOutput) {
-            console.log("-----------------Changing Form Temp Info--------------------------------");
-            console.log(e.target);
-            console.log(`name ${name}  and value: ${value} and id ${id}`);
-        }
-        let formCopy = structuredClone(formTempInfo);
-        formCopy[editSelector.index].bulletItems[id] = value;
-        setFormTempInput(formCopy);
-    }
+
 
     const handleStartDateInfoChange = (date) => {
         let formCopy = structuredClone(formTempInfo);
@@ -81,25 +63,25 @@ export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
         // On submission, use the temp info to update the current state AT the given index and also to send the entire array to the CV using the callback function
 
         // Delete any possible empty bullet items.
-        let tempInfoClone = structuredClone(formTempInfo);
-        tempInfoClone = tempInfoClone.map((item, index) => {
-            if (index === editSelector.index) {
-                return { ...item, bulletItems: item.bulletItems.filter(item => item !== "")}
-            } else {
-                return item;
-            }
-        }
-        )
-        setFormTempInput(tempInfoClone);
+        // let tempInfoClone = structuredClone(formTempInfo);
+        // tempInfoClone = tempInfoClone.map((item, index) => {
+        //     if (index === editSelector.index) {
+        //         return { ...item, bulletItems: item.bulletItems.filter(item => item !== "")}
+        //     } else {
+        //         return item;
+        //     }
+        // }
+        // )
+        // setFormTempInput(tempInfoClone);
 
-        setFormInput(tempInfoClone);
+        setFormInput(formTempInfo);
         
 
-        onDataSubmit(tempInfoClone);
+        onDataSubmit(formTempInfo);
         if (!suppressOutput) {
             console.log("Form Submitted");
-            console.log("New Experience Info iwas just updated with updatedState =  ");
-            console.table(tempInfoClone);
+            console.log("New Education Info iwas just updated with updatedState =  ");
+            console.table(formTempInfo);
         }
     }
 
@@ -120,77 +102,46 @@ export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
         }
     }
 
-    const addDutyClickHandler = () => {
-        // add another element to the array of bullet items temporarily.
 
 
-        // let formCopy = structuredClone(formTempInfo);
-        // formCopy[editSelector.index].bulletItems = [...formCopy[editSelector.index].bulletItems, ''];
-        // setFormTempInput(formCopy);
-        setFormTempInput((prevState) => {
-            const updatedBulletItems = [...prevState[editSelector.index].bulletItems,
-                '' // new empty bullet
-            ]
-            return prevState.map((item, index) =>
-                index === editSelector.index ? { ...item, bulletItems: updatedBulletItems } : item)
-        })
 
-
-    }
-
-    const deleteBulletCallback = (e) => {
-
-        const { id } = e.target;
-
-        setFormTempInput((prevState) => {
-            const copyBulletItems = [...prevState[editSelector.index].bulletItems];
-            copyBulletItems.splice(id, 1);
-            // console.log("butllet items:");
-            // console.log(copyBulletItems);
-            return prevState.map((item, index) =>
-                index === editSelector.index ? { ...item, bulletItems: copyBulletItems } : item)
-        })
-    }
-
-
-    if (!suppressOutput) {
-        // console.log("calling ExperienceForm withKU this defaultExperienceInfo:");
-        // console.table(defaultExperiencesInfo);
-        console.log(`editSelector is ${editSelector.index} and editMode is ${editMode}`)
-        console.log(editSelector.index);
-
-        console.log("the current form data is: ");
-        console.table(formInfo);
-        console.log("the current form info bullets are: ");
-        console.log(formInfo[1].bulletItems);
-
-        console.log("the current temp form data is: ");
-        console.table(formTempInfo);
-        console.log("the current temp form info bullets are: ");
-        console.log(formTempInfo[1].bulletItems);
-
-        console.log(`formTempInfo[editSelector].company is ${!editMode ? "" : formTempInfo[editSelector.index].company}`)
-    }
     return (
 
         <form onSubmit={handleFormSubmit} className='edit-form'>
-            <h2>Edit Experience</h2>
+            <h2>Edit Education</h2>
             {/* <input onChange={handleTempInfoChange} value={formTempInfo.company}/> */}
 
             <BasicTextInputRow
-                labelText={"Company Name"}
+                labelText={"School Name"}
                 placeholderText={"?"}
                 handleInputTextChange={handleTempInfoChange}
-                inputText={!editMode ? "" : formTempInfo[editSelector.index].company}
-                htmlForIdentifier={"company"}
+                inputText={!editMode ? "" : formTempInfo[editSelector.index].school}
+                htmlForIdentifier={"school"}
                 disabled={!editMode}
                 required />
             <BasicTextInputRow
-                labelText={"Job Title"}
+                labelText={"Degree"}
                 placeholderText={"?"}
                 handleInputTextChange={handleTempInfoChange}
-                inputText={!editMode ? "" : formTempInfo[editSelector.index].title}
-                htmlForIdentifier={"title"}
+                inputText={!editMode ? "" : formTempInfo[editSelector.index].degree}
+                htmlForIdentifier={"degree"}
+                disabled={!editMode}
+                required />
+            <BasicTextInputRow
+                labelText={"Major"}
+                placeholderText={"?"}
+                handleInputTextChange={handleTempInfoChange}
+                inputText={!editMode ? "" : formTempInfo[editSelector.index].major}
+                htmlForIdentifier={"major"}
+                disabled={!editMode}
+                required />
+            
+            <BasicTextInputRow
+                labelText={"GPA"}
+                placeholderText={"?"}
+                handleInputTextChange={handleTempInfoChange}
+                inputText={!editMode ? "" : formTempInfo[editSelector.index].gpa}
+                htmlForIdentifier={"gpa"}
                 disabled={!editMode}
                 required />
             <BasicTextInputRow
@@ -236,31 +187,7 @@ export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
                 </div>
 
             </div>
-            {editMode && <fieldset className='bullets-fieldset'>
-                <legend>Duties:</legend>
-                {
-                    formTempInfo[editSelector.index].bulletItems.map((item, index) =>
-                        // <p key={index}>Hi</p>
-                        <div className='bullets-with-delete' key={index}>
-                            <textarea
-
-                                id={index}
-                                className='form-input-text-size custom-textarea-bullets'
-                                type="text"
-
-                                name={`bullet${index}`}
-
-                                required
-                                disabled={!editMode}
-                                onChange={handleBulletChange}
-                                onKeyDown={handleOnKeyDown}
-                                value={item}
-                            />
-                            <button id={index} type='button' className='bullet-delete' onClick={deleteBulletCallback}>Delete</button>
-                        </div>
-                    )}
-                <button type='button' onClick={addDutyClickHandler}>Add Duty</button>
-            </fieldset>}
+        
 
             {editMode &&
                 <SubmitAndCancelButtonRow

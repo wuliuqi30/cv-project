@@ -13,3 +13,8 @@ Tasks:
 - make the edit button disappear after clicking it
 
 - make a cancel button on the left side that removes the submit button, sets the general form to disabled, and 
+
+
+10/16
+- Make the Full experiences Form
+- Make the experiences layout make sense on the CV.
