@@ -26,7 +26,8 @@ export function BasicTextInputRow({
                 {labelText}
             </label>
 
-            <input
+            <textarea
+                className='form-input-text-size custom-textarea'
                 type="text"
                 id={htmlForIdentifier}
                 name={htmlForIdentifier}

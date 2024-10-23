@@ -11,8 +11,8 @@ export const defaultExperiencesInfo = [
         company: "Science Applications International Corporation", 
         title: "Sr. Systems Engineer",
         location: "El Segundo, CA, USA",
-        startDate: "09/2019", 
-        endDate: "06/2020", 
+        startDate: new Date(2019,9), 
+        endDate: new Date(2020,6), 
         bulletItems: [
             "Wrote and analyzed system requirements for GPS Blocks II and III ensuring comprehensive coverage and alignment with critical technical standards.",
             "Carried out meticulous requirement traceability analysis, identifying and eliminating redundancies to enhance system efficiency.", 
@@ -25,8 +25,8 @@ export const defaultExperiencesInfo = [
         company: "Honest Place", 
         title: "Senior Dude",
         location: "place",
-        startDate: "03/2010", 
-        endDate: "05/2013", 
+        startDate: new Date(2013,2), 
+        endDate: new Date(2015,2), 
         bulletItems: [
             "Did an honest man's job",
         ]       

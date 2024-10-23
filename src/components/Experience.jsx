@@ -1,6 +1,7 @@
 
 import { List } from '../List';
 import { ReusableEditableSection } from './ReusableEditableSection';
+import {format} from "date-fns";
 
 export function Experience({ id, company,location,title,
     startDate,
@@ -36,7 +37,7 @@ export function Experience({ id, company,location,title,
             
             <List listClass='experience-list' titleDiv={<p 
             className = 'experience-info-heading'>
-                {startDate + '-' + endDate + ' | ' + title + ' - ' + company + ', ' + location}</p>}>
+                {format(startDate,"MMM yyyy") + ' - ' + format(endDate,"MMM yyyy") + ' | ' + title + ' - ' + company + ', ' + location}</p>}>
                 {
                     bulletItems.map(
                         (item, index) => <p className="experience-bullet" key={index}>{item}</p>
