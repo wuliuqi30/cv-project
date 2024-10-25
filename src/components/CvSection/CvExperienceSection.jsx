@@ -1,6 +1,6 @@
-import { List } from '../List';
+import { List} from '../utilityFunctions/List';
+import { editSelectorNames } from '../../constants/constants';
 import { Experience } from './Experience';
-import { editSelectorNames } from '../constants';
 
 
 export function CvExperienceSection({ experiences, editSelector, onEdit }) {
@@ -21,7 +21,10 @@ export function CvExperienceSection({ experiences, editSelector, onEdit }) {
     return (
         <div className='experience-section'
             >
-            <List titleDiv={<div className='cv-section-title'>Experiences</div>}>
+            <List 
+            titleDiv={<div className='cv-section-title'>Experiences</div>}
+            listClass={"experience-list"}
+            >
                 {experiences.map((experience) => {
                     if (!suppressOutput) {
                         console.log(`Mapping experience data: ${experience}`);

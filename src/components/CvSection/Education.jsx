@@ -1,5 +1,3 @@
-
-import { List } from '../List';
 import { ReusableEditableSection } from './ReusableEditableSection';
 import {format} from "date-fns";
 
@@ -41,9 +39,15 @@ export function Education({
             editSelectorIndex={editSelectorIndex}
             handleEditClick={handleEditClick}>
 
-            <p  className = 'education-info-heading'>
-                {format(endDate,"MMM yyyy") + ' | ' + degree + ', ' + major + '- GPA:' + gpa + '- ' + school + ' - ' + location}
+            <p className = 'education-info-heading'>
+                {format(endDate,"MMM yyyy") + ' | '}
+                <b>{degree}</b>                
+                {major != null && <span>{', ' + major}</span>}
+                {gpa != null && <span>{' - GPA: ' + gpa}</span>}
             </p>
+            {school != null && <p  className = 'education-info-heading'>
+                <b>{school}</b> <i>{location}</i>
+            </p>}
             
         </ReusableEditableSection>
     )

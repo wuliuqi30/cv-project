@@ -1,8 +1,13 @@
 import { useState } from 'react';
+
+import { editSelectorNames } from '../../constants/constants';
+import { defaultGeneralInfo } from '../../data/defaultData';
+
+
 import { BasicTextInputRow } from './BasicTextInputRow';
 import { SubmitAndCancelButtonRow } from './SubmitAndCancelButtonRow';
-import { defaultGeneralInfo } from './defaultData';
-import { editSelectorNames } from '../constants';
+
+
 
 export function GeneralInfoForm({ editSelector, onDataSubmit, onDataCancel }) {
     const suppressOutput = true;

@@ -1,15 +1,17 @@
 
 import { useState } from 'react';
+
+import { editSelectorNames } from '../../constants/constants';
+import { defaultExperiencesInfo } from '../../data/defaultData';
+
 import { SubmitAndCancelButtonRow } from './SubmitAndCancelButtonRow';
-import { defaultExperiencesInfo } from './defaultData';
 import { BasicTextInputRow } from './BasicTextInputRow';
-import { editSelectorNames } from '../constants';
-import { AddDuty } from './AddDuty';
+
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 
 export function ExperiencesForm({ editSelector, onDataSubmit, onDataCancel }) {
-    const suppressOutput = false;
+    const suppressOutput = true;
 
     // formInfo here is an array of many possible different experiences. The one displayed will go into formTempInfo, which is not an array, but a single object.
     const editMode = editSelector.sectionName === editSelectorNames.experienceInfo ? true : false;

@@ -1,10 +1,14 @@
 
 import { useState } from 'react';
+
+import { editSelectorNames } from '../../constants/constants';
+import { defaultEducationInfo } from '../../data/defaultData';
+
 import { SubmitAndCancelButtonRow } from './SubmitAndCancelButtonRow';
-import { defaultEducationInfo, defaultExperiencesInfo } from './defaultData';
 import { BasicTextInputRow } from './BasicTextInputRow';
-import { editSelectorNames } from '../constants';
-import { AddDuty } from './AddDuty';
+
+
+
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -95,12 +99,7 @@ export function EducationForm({ editSelector, onDataSubmit, onDataCancel }) {
 
 
 
-    const handleOnKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault(); // Prevent the default form submission
-            console.log("Prevented Submission from clicking enter on the input field")
-        }
-    }
+
 
 
 
@@ -135,7 +134,6 @@ export function EducationForm({ editSelector, onDataSubmit, onDataCancel }) {
                 htmlForIdentifier={"major"}
                 disabled={!editMode}
                 required />
-            
             <BasicTextInputRow
                 labelText={"GPA"}
                 placeholderText={"?"}

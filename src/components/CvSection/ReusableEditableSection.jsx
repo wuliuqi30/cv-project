@@ -1,8 +1,11 @@
 import { useState, useRef } from 'react';
+
 export function ReusableEditableSection({ children, sectionClassName, editSelectorIndex, handleEditClick }) {
 
-    const suppressOutput = false;
-
+    const suppressOutput = true;
+    if (!suppressOutput) {
+        console.log(`Entered Reusable Editable Section, sectionClassName is ${sectionClassName}, editSelectorIndex: ${editSelectorIndex} and handleEditClick is ${handleEditClick}  `);
+    }
     const [hoverButtonsVisible, setHoverButtonsVisible] = useState(false);
     const timeoutRef = useRef(null);
     const buttonDisappearTimerMs = 500;
@@ -39,11 +42,6 @@ export function ReusableEditableSection({ children, sectionClassName, editSelect
         handleEditClick();
     }
 
-
-    if (!suppressOutput) {
-
-
-    }
 
     return (
         <div className='editable-section' 

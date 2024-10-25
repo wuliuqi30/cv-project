@@ -2,6 +2,8 @@ export const editSelectorNames = {
     none: "none",
     generalInfo: "generalInfo",
     experienceInfo: "experienceInfo",
-    educationInfo: "educationInfo"
+    educationInfo: "educationInfo",
+    contactInfo: "contactInfo",
+    skillsInfo: "skillsInfo"
 }
 
