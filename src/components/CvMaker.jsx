@@ -26,7 +26,7 @@ import { SkillsForm } from './InputFormSection/SkillsForm';
 
 function CvMaker() {
 
-  const suppressOutput = false;
+  const suppressOutput = true;
   // this console.log runs every time the component renders
   // console.log("during render:");
 
@@ -76,16 +76,18 @@ function CvMaker() {
 
   // ----------------------------- Experiences -----------------------------------
 
+// Experience
+const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperiencesInfo);
+
 
   // Handle Submit Form Data
-  const handleExperiencesInputDataSubmit = (newData) => {
-    setExperiencesCvObject(newData);
+  const handleExperiencesFormClose = () => {
+    console.log("Closing the Experience Form");
     setEditSelectorMain(nothingBeingSelected);
   }
   // Cancel handled by one common function
 
-  // Experience In CV:
-  const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperiencesInfo);
+  
 
   // Experience in CV Edit Button Callback:
   const handleExperiencesRelatedDataEditClick = (arg) => {
@@ -137,22 +139,40 @@ function CvMaker() {
 
 
   // Handle Submit Form Data
-  const handleSkillsInputDataSubmit = (newData) => {
-    setSkillsInfoCvObject(newData);
+  const handleSkillsInputDataFormClose = () => {
+    console.log("Closing the Skills Form");
+    // Delete any skills that are empty
+    setSkillsInfoCvObject((prevState) => {
+      return prevState.filter((skill) => {
+          return skill.skillName != '' });
+  });
+
+
     setEditSelectorMain(nothingBeingSelected);
   }
 
   const handleSkillsInfoDataEditClick = (arg) => {
     // Essentially this sets edit mode true in the edit form. 
-    console.log("---------Edit Button pressed on skill info!---------")
+    console.log("---------Edit Button pressed on Skill info!---------")
     console.log(`arg is ${arg}`)
     setEditSelectorMain({ sectionName: editSelectorNames.skillsInfo, index: arg });
 
   }
 
+  // const handleExperienceChangeEditSelectorCall = (arg) => {
+  //   console.log("Changing the edit selector! arg is: ");
+  //   console.log(arg);
+  //   console.log("Edit Selector before update is:  ");
+  //   console.log(editSelectorMain);
+  //   console.log("Calling setEditSelectorMain")
+  //   setEditSelectorMain({sectionName: editSelectorNames.experienceInfo, index: experiencesCvDataObject.length});
+  // }
+
   if (!suppressOutput){
     console.log('educationInfoCvDataObject is: ')
     console.log(educationInfoCvDataObject);
+    console.log("edit selector is: ");
+    console.log(editSelectorMain);
   }
 
   return (
@@ -188,6 +208,7 @@ function CvMaker() {
           experiences={experiencesCvDataObject}
           editSelector={editSelectorMain}
           onEdit={handleExperiencesRelatedDataEditClick}
+          changeExperienceHandler={setExperiencesCvObject}
         />
 
 
@@ -207,8 +228,9 @@ function CvMaker() {
         <div className="input-section-card">
           <SkillsForm
             editSelector={editSelectorMain}
-            onDataSubmit={handleSkillsInputDataSubmit}
-            onDataCancel={handleCancelEditInput} />
+            handleFormClose={handleSkillsInputDataFormClose}
+            skillsInfo= {skillsInfoCvDataObject}
+            skillsInfoChangeHandler={setSkillsInfoCvObject} />
 
         </div>
         <div className="input-section-card">
@@ -222,9 +244,10 @@ function CvMaker() {
         <div className="input-section-card">
           <ExperiencesForm
             editSelector={editSelectorMain}
-            onDataSubmit={handleExperiencesInputDataSubmit}
-            onDataCancel={handleCancelEditInput}
-
+            changeEditSelector = {setEditSelectorMain}
+            handleFormClose={handleExperiencesFormClose}
+            experienceInfo= {experiencesCvDataObject}
+            experienceInfoChangeHandler={setExperiencesCvObject}
           />
         </div>
         <div className="input-section-card">

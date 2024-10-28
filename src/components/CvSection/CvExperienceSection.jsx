@@ -3,7 +3,7 @@ import { editSelectorNames } from '../../constants/constants';
 import { Experience } from './Experience';
 
 
-export function CvExperienceSection({ experiences, editSelector, onEdit }) {
+export function CvExperienceSection({ experiences, editSelector, onEdit, changeExperienceHandler }) {
 
     const suppressOutput = true;
     const editMode = editSelector.sectionName === editSelectorNames.experienceInfo ? true : false;
@@ -16,6 +16,15 @@ export function CvExperienceSection({ experiences, editSelector, onEdit }) {
         
     }
 
+
+    const deleteExperienceHandler = (e) => {
+        
+        const { id } = e.target;
+        console.log(`Deleting Experience, target id is: ${id}`);
+        changeExperienceHandler((prevState) => prevState.filter((experience)=>experience.id != id));
+        
+    }
+    
 
     // Composed of Experience modules
     return (
@@ -41,6 +50,7 @@ export function CvExperienceSection({ experiences, editSelector, onEdit }) {
                         bulletItems={experience.bulletItems}
                         editSelectorIndex={editSelector.index}
                         onExperienceEdit={onEdit}
+                        deleteExperienceHandler={deleteExperienceHandler}
                     />)
                 })}
             </List>

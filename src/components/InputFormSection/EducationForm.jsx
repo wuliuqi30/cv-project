@@ -60,7 +60,7 @@ export function EducationForm({
     return (
 
         <form className='edit-form'>
-            <h2>Edit Education</h2>
+            <h2>Click On CV To Edit</h2>
             {editMode &&
                 <>
                     <BasicTextInputRow

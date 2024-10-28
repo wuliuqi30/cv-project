@@ -1,5 +1,5 @@
 
-import { List} from '../utilityFunctions/List';
+import { List } from '../utilityFunctions/List';
 import { ReusableEditableSection } from './ReusableEditableSection';
 import { format } from "date-fns";
 
@@ -8,7 +8,8 @@ export function Experience({ id, company, location, title,
     endDate,
     bulletItems,
     editSelectorIndex,
-    onExperienceEdit
+    onExperienceEdit,
+    deleteExperienceHandler
 }) {
     const suppressOutput = true;
 
@@ -47,6 +48,7 @@ export function Experience({ id, company, location, title,
                     bulletItems.map(
                         (item, index) => <p className="experience-bullet" key={index}>{item}</p>
                     )}
+                    <button id={id} onClick={deleteExperienceHandler} className='delete-experience-button'>Delete</button>
             </List>
         </ReusableEditableSection>
     )
