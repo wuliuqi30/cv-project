@@ -26,7 +26,7 @@ import { SkillsForm } from './InputFormSection/SkillsForm';
 
 function CvMaker() {
 
-  const suppressOutput = true;
+  const suppressOutput = false;
   // this console.log runs every time the component renders
   // console.log("during render:");
 
@@ -68,7 +68,7 @@ function CvMaker() {
   const handleGeneralInfoRelatedDataEditClick = () => {
     // Essentially this sets edit mode true in the edit form. 
     console.log("In CvMaker.jsx handleGeneralInfoRelatedDataEditClick, setting edit sector to general info")
-    console.table(generalInfoCvDataObject)
+    console.log(generalInfoCvDataObject)
     setEditSelectorMain({ sectionName: editSelectorNames.generalInfo, index: -1 });
 
   } 
@@ -97,20 +97,16 @@ function CvMaker() {
   }
 
   // ----------------------------- Education -----------------------------------
-
+  const [educationInfoCvDataObject, setEducationInfoCvObject] = useState(defaultEducationInfo);
   // Handle Submit Form Data
-  const handleEducationInputDataSubmit = (newData) => {
-    setEducationCvObject(newData);
+  const handleEducationFormClose = () => {
+    console.log("Closing the Education Form");
     setEditSelectorMain(nothingBeingSelected);
   }
 
-  // Education In CV:
-  const [educationCvDataObject, setEducationCvObject] = useState(defaultEducationInfo);
-
-
   const handleEducationDataEditClick = (arg) => {
     // Essentially this sets edit mode true in the edit form. 
-    console.log("---------Edit Button pressed on an education!---------")
+    console.log("---------Edit Button pressed on an Education!---------")
     console.log(`arg is ${arg}`)
     setEditSelectorMain({ sectionName: editSelectorNames.educationInfo, index: arg });
 
@@ -131,11 +127,7 @@ function CvMaker() {
     console.log("---------Edit Button pressed on contact info!---------")
     console.log(`arg is ${arg}`)
     setEditSelectorMain({ sectionName: editSelectorNames.contactInfo, index: arg });
-
   }
-
-
-
 
     // ---------------Skills Info ---------------
 
@@ -159,10 +151,8 @@ function CvMaker() {
   }
 
   if (!suppressOutput){
-    console.log("defaultSkillsInfo is: ");
-    console.table(defaultSkillsInfo);
-    console.log("skillsInfoCvDataObject is:");
-    console.table(skillsInfoCvDataObject);
+    console.log('educationInfoCvDataObject is: ')
+    console.log(educationInfoCvDataObject);
   }
 
   return (
@@ -183,7 +173,7 @@ function CvMaker() {
             onEdit={handleContactInfoDataEditClick}
           />
           <CvEducationSection
-            educations={educationCvDataObject}
+            educations={educationInfoCvDataObject}
             editSelector={editSelectorMain}
             onEdit={handleEducationDataEditClick}
           />
@@ -240,9 +230,9 @@ function CvMaker() {
         <div className="input-section-card">
           <EducationForm
             editSelector={editSelectorMain}
-            onDataSubmit={handleEducationInputDataSubmit}
-            onDataCancel={handleCancelEditInput}
-
+            handleFormClose={handleEducationFormClose}
+            educationFormInfo= {educationInfoCvDataObject}
+            educationFormChangeHandler={setEducationInfoCvObject}
           />
         </div>
 

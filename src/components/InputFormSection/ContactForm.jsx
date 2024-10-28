@@ -8,7 +8,7 @@ export function ContactForm({
     handleFormClose,
     contactFormInfo,
     contactFormChangeHandler}) {
-    const suppressOutput = false;
+    const suppressOutput = true;
 
     // formInfo here is an array of many possible different experiences. The one displayed will go into formTempInfo, which is not an array, but a single object.
     const editMode = editSelector.sectionName === editSelectorNames.contactInfo ? true : false;
@@ -26,7 +26,7 @@ export function ContactForm({
 
         <form onSubmit={handleFormClose} className='edit-form'>
             <h2>Edit Contact Info</h2>
-            {/* <input onChange={handleTempInfoChange} value={formTempInfo.company}/> */}
+            
             {editMode && 
                 <>
             <BasicTextInputRow

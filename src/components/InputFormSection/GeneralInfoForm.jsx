@@ -8,7 +8,8 @@ export function GeneralInfoForm({
     generalInfo, 
     generalInfoChangeHandler }) {
 
-    const suppressOutput = false;
+    const suppressOutput = true;
+    
     if (!suppressOutput) {
         console.log("--- Running General Info From -----")
     }
