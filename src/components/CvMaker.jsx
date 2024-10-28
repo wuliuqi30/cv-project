@@ -53,26 +53,25 @@ function CvMaker() {
 
 
   // ----------------------------- General Info -----------------------------------
+ // General Info In CV:
+ const [generalInfoCvDataObject, setGeneralInformationCvObject] = useState(defaultGeneralInfo);
+
 
   // Handle Submit Form Data
-  const handleGeneralInfoInputDataSubmit = (newData) => {
-    setGeneralInformationCvObject(newData);
+  const handleGeneralInfoDataFormClose = () => {
+    console.log("Closing the General Info Form");
     setEditSelectorMain(nothingBeingSelected);
   }
 
-  // Cancel handled by one common function
-
-  // General Info In CV:
-  const [generalInfoCvDataObject, setGeneralInformationCvObject] = useState(defaultGeneralInfo);
 
   // General Info in CV Edit Button Callback:
   const handleGeneralInfoRelatedDataEditClick = () => {
     // Essentially this sets edit mode true in the edit form. 
-    console.log("general info object is:")
+    console.log("In CvMaker.jsx handleGeneralInfoRelatedDataEditClick, setting edit sector to general info")
     console.table(generalInfoCvDataObject)
     setEditSelectorMain({ sectionName: editSelectorNames.generalInfo, index: -1 });
 
-  }
+  } 
 
 
   // ----------------------------- Experiences -----------------------------------
@@ -118,14 +117,12 @@ function CvMaker() {
   }
 
   // ---------------Contact Info ---------------
-
   // Education In CV:
   const [contactInfoCvDataObject, setContactInfoCvObject] = useState(defaultContactInfo);
 
-
   // Handle Submit Form Data
-  const handleContactInputDataSubmit = (newData) => {
-    setContactInfoCvObject(newData);
+  const handleContactInputDataFormClose = () => {
+    console.log("Closing the Contact Form");
     setEditSelectorMain(nothingBeingSelected);
   }
 
@@ -136,6 +133,9 @@ function CvMaker() {
     setEditSelectorMain({ sectionName: editSelectorNames.contactInfo, index: arg });
 
   }
+
+
+
 
     // ---------------Skills Info ---------------
 
@@ -208,8 +208,9 @@ function CvMaker() {
         <div className="input-section-card">
           <GeneralInfoForm
             editSelector={editSelectorMain}
-            onDataSubmit={handleGeneralInfoInputDataSubmit}
-            onDataCancel={handleCancelEditInput} />
+            handleFormClose={handleGeneralInfoDataFormClose}
+            generalInfo={generalInfoCvDataObject}
+            generalInfoChangeHandler={setGeneralInformationCvObject} />
 
         </div>
         
@@ -223,8 +224,9 @@ function CvMaker() {
         <div className="input-section-card">
           <ContactForm
             editSelector={editSelectorMain}
-            onDataSubmit={handleContactInputDataSubmit}
-            onDataCancel={handleCancelEditInput} />
+            handleFormClose={handleContactInputDataFormClose}
+            contactFormInfo= {contactInfoCvDataObject}
+            contactFormChangeHandler={setContactInfoCvObject} />
 
         </div>
         <div className="input-section-card">

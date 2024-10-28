@@ -1,72 +1,49 @@
-import { useState } from 'react';
-
 import { editSelectorNames } from '../../constants/constants';
-import { defaultGeneralInfo } from '../../data/defaultData';
-
-
 import { BasicTextInputRow } from './BasicTextInputRow';
-import { SubmitAndCancelButtonRow } from './SubmitAndCancelButtonRow';
+import { CloseButton } from './CloseButton';
 
+export function GeneralInfoForm({
+    editSelector,
+    handleFormClose, 
+    generalInfo, 
+    generalInfoChangeHandler }) {
 
-
-export function GeneralInfoForm({ editSelector, onDataSubmit, onDataCancel }) {
-    const suppressOutput = true;
-
+    const suppressOutput = false;
+    if (!suppressOutput) {
+        console.log("--- Running General Info From -----")
+    }
     // Are we in edit mode for this section?
     const editMode = editSelector.sectionName === editSelectorNames.generalInfo ? true : false;
-
-    const [formInfo, setFormInput] = useState(defaultGeneralInfo);
-    const [formTempInfo, setFormTempInput] = useState(defaultGeneralInfo);
+    if (!suppressOutput) {
+        console.log("- editMode -----", editMode)
+    }
 
     const handleGeneralInfoChange = (e) => {
 
-        const { name, value, id, placeholder } = e.target;
+        const { name, value } = e.target;
         if (!suppressOutput) {
-            console.log("Changing Form Temp Info");
-            console.log(e.target);
-            console.log(`name ${name}  and value: ${value} and id ${id} and placeholder ${placeholder}`);
-
+            console.log("--------Editing General Info---------");
         }
-
-        setFormTempInput((prev) => ({
-            ...prev, [name]: value,
-        }));
+        generalInfoChangeHandler({...generalInfo, [name]:value});
     };
 
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // On submission, use the temp info to update the current state and also to send to the CV using the callback function 
-        setFormInput(formTempInfo);
-        onDataSubmit(formTempInfo);
-        console.log("Form Submitted");
-    }
-
-    const handleCancel = (e) => {
-        e.preventDefault();
-        // On cancellation, you haven't yet updated the forminfo, so you reset the temp info to what the form info is, then call the callback function, which will set edit mode to false, when then disables the form
-        setFormTempInput(formInfo);
-        console.log("Cancelled Submission");
-        onDataCancel();
-    }
-
+ 
     if (!suppressOutput) {
-        console.log("calling generalInfoForm with this generalInfoDataObject:");
-        console.table(defaultGeneralInfo);
-        console.log("the current form data is: ");
-        console.table(formInfo);
-        console.log("the current temp form data is: ");
-        console.table(formTempInfo);
+        console.log('generalInfo is: ');
+        console.log(generalInfo);
+        
     }
+
     return (
 
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormClose}>
             <h2>Edit General Information</h2>
-            <BasicTextInputRow
+            {editMode && 
+            <><BasicTextInputRow
                 labelText={"First Name"}
                 placeholderText={"Type First Name Here"}
                 handleInputTextChange={handleGeneralInfoChange}
-                inputText={!editMode ? "" : formTempInfo.firstName}
+                inputText={!editMode ? "" : generalInfo.firstName}
                 htmlForIdentifier={"firstName"}
                 disabled={!editMode}
                 required />
@@ -74,14 +51,15 @@ export function GeneralInfoForm({ editSelector, onDataSubmit, onDataCancel }) {
                 labelText={"Last Name"}
                 placeholderText={"Type Last Name Here"}
                 handleInputTextChange={handleGeneralInfoChange}
-                inputText={!editMode ? "" : formTempInfo.lastName}
+                inputText={!editMode ? "" : generalInfo.lastName}
                 htmlForIdentifier={"lastName"}
                 disabled={!editMode}
                 required />
-            {editMode &&
-                <SubmitAndCancelButtonRow
-                    submitCallback={handleFormSubmit}
-                    cancelCallback={handleCancel} />}
+            
+            <CloseButton
+                closeCallBack={handleFormClose}
+                />
+            </>}
         </form>
 
 

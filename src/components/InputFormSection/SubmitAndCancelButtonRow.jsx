@@ -1,16 +1,17 @@
 
 
-export function SubmitAndCancelButtonRow({ submitCallback, cancelCallback }) {
+export function SubmitAndCancelButtonRow({ closeCallBack, deleteCallback }) {
 
+   
     return (
         <div className="submit-cancel-button-row">
-            <button onClick={cancelCallback}>
-                {"Cancel"}
+            <button onClick={deleteCallback}>
+                {"Delete"}
             </button>
-            <button onClick={submitCallback}>
-                {"Submit"}
+            <button onClick={closeCallBack}>
+                {"Close"}
             </button>
 
         </div>
-    )
+    ) 
 }
