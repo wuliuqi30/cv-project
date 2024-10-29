@@ -3,6 +3,7 @@ import { CloseButton } from './CloseButton';
 import { BasicTextInputRow } from './BasicTextInputRow';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
+import { format } from "date-fns";
 
 export function ExperiencesForm({
     editSelector,
@@ -17,14 +18,14 @@ export function ExperiencesForm({
         console.log("Re-rendering Experience Form: ")
     }
 
-    const emptyExperience = {   
+    const emptyExperience = {
         id: experienceInfo.length,
-        company: "", 
+        company: "",
         title: "",
         location: "",
-        startDate: new Date(), 
-        endDate: new Date(), 
-        bulletItems: [""]       
+        startDate: new Date(),
+        endDate: new Date(),
+        bulletItems: [""]
     };
 
     const editMode = editSelector.sectionName === editSelectorNames.experienceInfo ? true : false;
@@ -41,7 +42,10 @@ export function ExperiencesForm({
         }
 
         experienceInfoChangeHandler(prevState =>
-            prevState.map((item, index) => index === editSelector.index ? { ...item, [name]: value } : item)
+            prevState.map((item, index) => {
+                console.log(`Mapping previous state to new state, mapping index = ${index}, type: ${typeof index} editSelector.index  = ${editSelector.index}, type: ${typeof editSelector.index} index === editSelector.index? ${index === editSelector.index} `);
+                return index === editSelector.index ? { ...item, [name]: value } : item
+            })
         );
     };
 
@@ -56,71 +60,31 @@ export function ExperiencesForm({
             console.log(`name ${name}  and value: ${value} and id ${id}`);
         }
         const numberifiedId = Number(id);
-        experienceInfoChangeHandler(prevState =>
-            prevState.map((experience, index) => {
-                console.log(`index is ${index}, editSelector.index is ${editSelector.index}, experience is: `);
-                console.log(experience);
-                return index === editSelector.index ?
-                    {...experience, bulletItems: experience.bulletItems.map((bullet, bulletIndex) => { 
-                        console.log(`bulletIndex is ${bulletIndex} type is ${typeof bulletIndex} and id is ${id } and of type: ${typeof id} bullet is`);
-                        console.log(bullet);
-                        if(bulletIndex === numberifiedId){
-                            console.log(`bullet ${bullet} of should be set to value= ${value}`);
-                        }
 
-                        return bulletIndex === numberifiedId ? value : bullet})} : experience})
-        );
+
+        experienceInfoChangeHandler(prevState => {
+            const updatedState = structuredClone(prevState);
+            const selectedExperience = updatedState[editSelector.index];
+
+            // Remove the specified bullet item by filtering
+            selectedExperience.bulletItems[numberifiedId] = value;
+
+            return updatedState;
+        });
+
+
     }
 
-    const handleStartDateInfoChange = (date) => {
-        let formCopy = structuredClone(formTempInfo);
-        formCopy[editSelector.index] = { ...formCopy[editSelector.index], startDate: date };
-        setFormTempInput(formCopy);
-    }
+ 
 
-    const handleEndDateInfoChange = (date) => {
-        let formCopy = structuredClone(formTempInfo);
-        formCopy[editSelector.index] = { ...formCopy[editSelector.index], endDate: date };
-        setFormTempInput(formCopy);
-    }
-
-
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // On submission, use the temp info to update the current state AT the given index and also to send the entire array to the CV using the callback function
-
-        // Delete any possible empty bullet items.
-        let tempInfoClone = structuredClone(formTempInfo);
-        tempInfoClone = tempInfoClone.map((item, index) => {
-            if (index === editSelector.index) {
-                return { ...item, bulletItems: item.bulletItems.filter(item => item !== "") }
-            } else {
-                return item;
-            }
-        }
-        )
-        setFormTempInput(tempInfoClone);
-
-        setFormInput(tempInfoClone);
-
-
-        onDataSubmit(tempInfoClone);
+    const handleDateChange = (field) => (date) => {
         if (!suppressOutput) {
-            console.log("Form Submitted");
-            console.log("New Experience Info iwas just updated with updatedState =  ");
-            console.table(tempInfoClone);
+            console.log("Calling Higher Order Date Change Function")
         }
-    }
-
-    const handleCancel = (e) => {
-        e.preventDefault();
-        // On cancellation, you haven't yet updated the forminfo, so you reset the temp info to what the form info is, then call the callback function, which will set edit mode to false, when then disables the form
-        setFormTempInput(formInfo);
-        console.log("Cancelled Submission");
-        onDataCancel();
-    }
-
+        experienceInfoChangeHandler(prevState =>
+            prevState.map((item, index) => index === editSelector.index ? { ...item, [field]: date } : item)
+        );
+    };
 
 
     const handleOnKeyDown = (e) => {
@@ -130,14 +94,14 @@ export function ExperiencesForm({
         }
     }
 
-    const addDutyClickHandler = () => {
+    const addBulletClickHandler = () => {
         // add another element to the array of bullet items temporarily.
 
 
         // let formCopy = structuredClone(formTempInfo);
         // formCopy[editSelector.index].bulletItems = [...formCopy[editSelector.index].bulletItems, ''];
         // setFormTempInput(formCopy);
-        setFormTempInput((prevState) => {
+        experienceInfoChangeHandler((prevState) => {
             const updatedBulletItems = [...prevState[editSelector.index].bulletItems,
                 '' // new empty bullet
             ]
@@ -145,32 +109,56 @@ export function ExperiencesForm({
                 index === editSelector.index ? { ...item, bulletItems: updatedBulletItems } : item)
         })
 
-
+   
     }
 
     const deleteBulletCallback = (e) => {
 
         const { id } = e.target;
+        // id is the bullet id.
+        const numberifiedId = Number(id);
+        experienceInfoChangeHandler(prevState =>
+            prevState.map((experience, index) => {
+                // console.log(`index is ${index}, editSelector.index is ${editSelector.index}, experience is: `);
+                // console.log(experience);
+                return index === editSelector.index ?
+                    {
+                        ...experience, bulletItems: experience.bulletItems.filter((bullet, bulletIndex) => {
 
-        setFormTempInput((prevState) => {
-            const copyBulletItems = [...prevState[editSelector.index].bulletItems];
-            copyBulletItems.splice(id, 1);
-            // console.log("butllet items:");
-            // console.log(copyBulletItems);
-            return prevState.map((item, index) =>
-                index === editSelector.index ? { ...item, bulletItems: copyBulletItems } : item)
-        })
+                            return bulletIndex !== numberifiedId
+                        })
+                    } : experience
+            })
+        );
     }
 
     const addNewExperienceHandler = (e) => {
         console.log("Adding an Experience:");
         e.preventDefault();
-        
+
         experienceInfoChangeHandler((prevState) => [...prevState, emptyExperience]);
         console.log("Calling changeEditSelector:");
-        changeEditSelector({sectionName: editSelectorNames.experienceInfo, index: experienceInfo.length});
+        changeEditSelector({ sectionName: editSelectorNames.experienceInfo, index: experienceInfo.length });
     }
 
+    const deleteExperienceHandler = (e) => {
+
+        const { id } = e.target;
+        console.log(`Deleting Experience, target id is: ${id}`);
+        experienceInfoChangeHandler((prevState) => prevState.filter((experience) => experience.id != id));
+
+    }
+
+
+    const clickExperienceFormHandler = (e) => {
+        console.log("Clicking an Experience on the form to open the form.");
+        e.preventDefault();
+
+        const { id } = e.target;
+        changeEditSelector({ sectionName: editSelectorNames.experienceInfo, index: Number(id) });
+
+
+    }
 
     if (!suppressOutput) {
         // console.log("calling ExperienceForm withKU this defaultExperienceInfo:");
@@ -184,99 +172,121 @@ export function ExperiencesForm({
 
     return (
 
-        <form className='edit-form'>
-            <h2>Click an Experience on the CV To Edit</h2>
-            <button onClick={addNewExperienceHandler}>Add A New Experience</button>
-            {editMode &&
-                <>
-                    <BasicTextInputRow
-                        labelText={"Company Name"}
-                        placeholderText={"?"}
-                        handleInputTextChange={handleEditClick}
-                        inputText={!editMode ? "" : experienceInfo[editSelector.index].company}
-                        htmlForIdentifier={"company"}
-                        disabled={!editMode}
-                         />
-                    <BasicTextInputRow
-                        labelText={"Job Title"}
-                        placeholderText={"?"}
-                        handleInputTextChange={handleEditClick}
-                        inputText={!editMode ? "" : experienceInfo[editSelector.index].title}
-                        htmlForIdentifier={"title"}
-                        disabled={!editMode}
-                         />
-                    <BasicTextInputRow
-                        labelText={"Location"}
-                        placeholderText={"?"}
-                        handleInputTextChange={handleEditClick}
-                        inputText={!editMode ? "" : experienceInfo[editSelector.index].location}
-                        htmlForIdentifier={"location"}
-                        disabled={!editMode}
-                         />
+        <>
+            <div className='edit-form-title'>Click an experience to edit</div>
+            <div className='edit-form-list'>
 
-                    <div className='basic-form-input-row'>
-                        <div className='date-block'>
-                            <label htmlFor='dateStart'>
-                                From:
-                            </label>
-                            <DatePicker
-                                selected={!editMode ? new Date() : experienceInfo[editSelector.index].startDate}
-                                onChange={handleStartDateInfoChange}
-
-                                startDate={!editMode ? new Date() : experienceInfo[editSelector.index].startDate}
-                                endDate={!editMode ? new Date() : experienceInfo[editSelector.index].startDate}
-                                dateFormat="MM/yyyy"
-                                showMonthYearPicker
-                                disabled={!editMode}
-                            />
-                        </div>
-
-                        <div className='date-block'>
-                            <label htmlFor='dateEnd'>
-                                To:
-                            </label>
-                            <DatePicker
-                                selected={!editMode ? new Date() : experienceInfo[editSelector.index].endDate}
-                                onChange={handleEndDateInfoChange}
-
-                                startDate={!editMode ? new Date() : experienceInfo[editSelector.index].endDate}
-                                endDate={!editMode ? new Date() : experienceInfo[editSelector.index].endDate}
-                                dateFormat="MM/yyyy"
-                                showMonthYearPicker
-                                disabled={!editMode}
-                            />
-                        </div>
-
-                    </div>
-                    <fieldset className='bullets-fieldset'>
-                        <legend>Duties:</legend>
-                        {
-                            experienceInfo[editSelector.index].bulletItems.map((item, index) =>
-                                // <p key={index}>Hi</p>
-                                <div className='bullets-with-delete' key={index}>
-                                    <textarea
-
-                                        id={index}
-                                        className='form-input-text-size custom-textarea-bullets'
-                                        type="text"
-                                        name={`bullet${index}`}                                        
-                                        disabled={!editMode}
-                                        onChange={handleBulletChange}
-                                        onKeyDown={handleOnKeyDown}
-                                        value={item}
-                                    />
-                                    <button id={index} type='button' className='bullet-delete' onClick={deleteBulletCallback}>Delete</button>
+                {experienceInfo.map((experience, index) => {
+                    return (
+                        <>
+                            {(!editMode || (editMode && experience.id != editSelector.index)) &&
+                                <div className='edit-form-heading-row-with-delete'>
+                                    <button
+                                        id={experience.id}
+                                        onClick={clickExperienceFormHandler}
+                                        className={"experience-form-heading"}
+                                        key={experience.id}>{experience.company} started {format(experience.startDate, "MMM/yy")}
+                                    </button>
+                                    <button id={index} onClick={deleteExperienceHandler} className='delete-item-button'>Delete</button>
                                 </div>
-                            )}
-                        <button type='button' onClick={addDutyClickHandler}>Add Duty</button>
-                    </fieldset>
+                            }
+                            {(editMode && experience.id == editSelector.index) &&
+                                <form className='edit-form'>
+                                    <BasicTextInputRow
+                                        labelText={"Company Name"}
+                                        placeholderText={"?"}
+                                        handleInputTextChange={handleEditClick}
+                                        inputText={!editMode ? "" : experienceInfo[editSelector.index].company}
+                                        htmlForIdentifier={"company"}
+                                        disabled={!editMode}
+                                    />
+                                    <BasicTextInputRow
+                                        labelText={"Job Title"}
+                                        placeholderText={"?"}
+                                        handleInputTextChange={handleEditClick}
+                                        inputText={!editMode ? "" : experienceInfo[editSelector.index].title}
+                                        htmlForIdentifier={"title"}
+                                        disabled={!editMode}
+                                    />
+                                    <BasicTextInputRow
+                                        labelText={"Location"}
+                                        placeholderText={"?"}
+                                        handleInputTextChange={handleEditClick}
+                                        inputText={!editMode ? "" : experienceInfo[editSelector.index].location}
+                                        htmlForIdentifier={"location"}
+                                        disabled={!editMode}
+                                    />
+
+                                    <div className='basic-form-input-row'>
+                                        <div className='date-block'>
+                                            <label htmlFor='dateStart'>
+                                                From:
+                                            </label>
+                                            <DatePicker
+                                                selected={!editMode ? new Date() : experienceInfo[editSelector.index].startDate}
+                                                onChange={handleDateChange("startDate")}
+
+                                                startDate={!editMode ? new Date() : experienceInfo[editSelector.index].startDate}
+                                                endDate={!editMode ? new Date() : experienceInfo[editSelector.index].startDate}
+                                                dateFormat="MM/yyyy"
+                                                showMonthYearPicker
+                                                disabled={!editMode}
+                                            />
+                                        </div>
+
+                                        <div className='date-block'>
+                                            <label htmlFor='dateEnd'>
+                                                To:
+                                            </label>
+                                            <DatePicker
+                                                selected={!editMode ? new Date() : experienceInfo[editSelector.index].endDate}
+                                                onChange={handleDateChange("endDate")}
+
+                                                startDate={!editMode ? new Date() : experienceInfo[editSelector.index].endDate}
+                                                endDate={!editMode ? new Date() : experienceInfo[editSelector.index].endDate}
+                                                dateFormat="MM/yyyy"
+                                                showMonthYearPicker
+                                                disabled={!editMode}
+                                            />
+                                        </div>
+
+                                    </div>
+                                    <fieldset className='bullets-fieldset'>
+                                        <legend>Duties:</legend>
+                                        {
+                                            experienceInfo[editSelector.index].bulletItems.map((item, index) =>
+                                                // <p key={index}>Hi</p>
+                                                <div className='bullets-with-delete' key={index}>
+                                                    <textarea
+
+                                                        id={index}
+                                                        className='form-input-text-size custom-textarea-bullets'
+                                                        type="text"
+                                                        name={`bullet${index}`}
+                                                        disabled={!editMode}
+                                                        onChange={handleBulletChange}
+                                                        onKeyDown={handleOnKeyDown}
+                                                        value={item}
+                                                    />
+                                                    <button id={index} type='button' className='bullet-delete' onClick={deleteBulletCallback}>Delete</button>
+                                                </div>
+                                            )}
+                                        <button type='button' onClick={addBulletClickHandler}>Add Duty</button>
+                                    </fieldset>
 
 
-                    <CloseButton
-                        closeCallBack={handleFormClose}
-                    />
-                </>}
-        </form>
+                                    <CloseButton
+                                        closeCallBack={handleFormClose}
+                                    />
+                                </form>
+                            }
+                        </>
+                    )
+                })}
+                <button className='add-experience-button' onClick={addNewExperienceHandler}>Add A New Experience</button>
+            </div>
+        </>
+
 
 
 

@@ -93,8 +93,8 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
   const handleExperiencesRelatedDataEditClick = (arg) => {
     // Essentially this sets edit mode true in the edit form. 
     console.log("---------Edit Button pressed on an experience!---------")
-    console.log(`arg is ${arg}`)
-    setEditSelectorMain({ sectionName: editSelectorNames.experienceInfo, index: arg });
+    console.log(`arg is ${arg} type is ${typeof arg} converted to number is ${typeof Number(arg)}`)
+    setEditSelectorMain({ sectionName: editSelectorNames.experienceInfo, index: Number(arg) });
 
   }
 
@@ -109,8 +109,8 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
   const handleEducationDataEditClick = (arg) => {
     // Essentially this sets edit mode true in the edit form. 
     console.log("---------Edit Button pressed on an Education!---------")
-    console.log(`arg is ${arg}`)
-    setEditSelectorMain({ sectionName: editSelectorNames.educationInfo, index: arg });
+    console.log(`arg is ${arg} type is ${typeof arg} converted to number is ${typeof Number(arg)}`)
+    setEditSelectorMain({ sectionName: editSelectorNames.educationInfo, index: Number(arg) });
 
   }
 
@@ -127,8 +127,8 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
   const handleContactInfoDataEditClick = (arg) => {
     // Essentially this sets edit mode true in the edit form. 
     console.log("---------Edit Button pressed on contact info!---------")
-    console.log(`arg is ${arg}`)
-    setEditSelectorMain({ sectionName: editSelectorNames.contactInfo, index: arg });
+    console.log(`arg is ${arg} type is ${typeof arg} converted to number is ${typeof Number(arg)}`)
+    setEditSelectorMain({ sectionName: editSelectorNames.contactInfo, index: Number(arg) });
   }
 
     // ---------------Skills Info ---------------
@@ -155,7 +155,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
     // Essentially this sets edit mode true in the edit form. 
     console.log("---------Edit Button pressed on Skill info!---------")
     console.log(`arg is ${arg}`)
-    setEditSelectorMain({ sectionName: editSelectorNames.skillsInfo, index: arg });
+    setEditSelectorMain({ sectionName: editSelectorNames.skillsInfo, index: Number(arg) });
 
   }
 
@@ -219,6 +219,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
         <div className="input-section-card">
           <GeneralInfoForm
             editSelector={editSelectorMain}
+            changeEditSelector = {setEditSelectorMain}
             handleFormClose={handleGeneralInfoDataFormClose}
             generalInfo={generalInfoCvDataObject}
             generalInfoChangeHandler={setGeneralInformationCvObject} />
@@ -228,6 +229,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
         <div className="input-section-card">
           <SkillsForm
             editSelector={editSelectorMain}
+            changeEditSelector = {setEditSelectorMain}
             handleFormClose={handleSkillsInputDataFormClose}
             skillsInfo= {skillsInfoCvDataObject}
             skillsInfoChangeHandler={setSkillsInfoCvObject} />
@@ -236,6 +238,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
         <div className="input-section-card">
           <ContactForm
             editSelector={editSelectorMain}
+            changeEditSelector = {setEditSelectorMain}
             handleFormClose={handleContactInputDataFormClose}
             contactFormInfo= {contactInfoCvDataObject}
             contactFormChangeHandler={setContactInfoCvObject} />
@@ -253,6 +256,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
         <div className="input-section-card">
           <EducationForm
             editSelector={editSelectorMain}
+            changeEditSelector = {setEditSelectorMain}
             handleFormClose={handleEducationFormClose}
             educationFormInfo= {educationInfoCvDataObject}
             educationFormChangeHandler={setEducationInfoCvObject}

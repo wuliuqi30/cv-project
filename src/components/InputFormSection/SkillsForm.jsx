@@ -2,7 +2,12 @@ import { editSelectorNames } from '../../constants/constants';
 import { CloseButton } from './CloseButton';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export function SkillsForm({ editSelector, handleFormClose, skillsInfo, skillsInfoChangeHandler }) {
+export function SkillsForm({ 
+    editSelector, 
+    changeEditSelector,
+    handleFormClose, 
+    skillsInfo, 
+    skillsInfoChangeHandler }) {
 
     const suppressOutput = true;
 
@@ -44,9 +49,9 @@ export function SkillsForm({ editSelector, handleFormClose, skillsInfo, skillsIn
         skillsInfoChangeHandler((prevState) => [...prevState, emptySkill]);
     }
 
-    const handleDeleteSkill = (e) =>{
+    const handleDeleteSkill = (e) => {
         e.preventDefault();
-        const {  id } = e.target;
+        const { id } = e.target;
 
         console.log("Deleting a skill:");
         skillsInfoChangeHandler((prevState) => {
@@ -56,13 +61,28 @@ export function SkillsForm({ editSelector, handleFormClose, skillsInfo, skillsIn
         });
     }
 
-    return (
+    const clickFormHandler = (e) => {
+        console.log("Clicking skills form to open the form.");
+        e.preventDefault();
 
-        <form className='edit-form'>
-            <h2>Click on CV To Edit Skills</h2>
+        changeEditSelector((prevState) => {
+            return { ...prevState, sectionName: editSelectorNames.skillsInfo }
+        });
+    }
+
+    return (
+        <>
+            <button 
+            onClick={clickFormHandler} 
+            className='edit-form-title'>
+                Click to edit skills
+                </button>
+
+
+
 
             {editMode &&
-                <>
+                <form className='edit-form'>
                     <fieldset className='skills-fieldset'>
                         <p className='skill-list-column-header'>Skill:</p>
                         <p className='skill-list-column-header'>Type:</p>
@@ -125,9 +145,9 @@ export function SkillsForm({ editSelector, handleFormClose, skillsInfo, skillsIn
                         onClick={handleAddSkill}
                     >Click to Add Skill</button>
 
-                </>}
-        </form>
+                </form>}
 
+        </>
 
 
 

@@ -37,7 +37,7 @@ export function CvSkillsSection({ skills, editSelector, onEdit }) {
                      <b className='skills-title'>Languages: </b>{skills.
                      filter(skill=> skill.skillType == 'language').
                      map((skill,index)=> {
-                        return (<span key={index}>{skill.skillName} </span>)
+                        return (<span key={index}>{skill.skillName}{', '} </span>)
                      })}
                       </div>
             </ReusableEditableSection>
