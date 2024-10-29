@@ -24,7 +24,7 @@ export function CvEducationSection({ educations, editSelector, onEdit }) {
             >
             <List 
             titleDiv={<div className='cv-section-title'>Education</div>}
-            listClass={"education-list"}
+            listClass={"cv-first-level-list"}
             >
                 {educations.map((education) => {
                     if (!suppressOutput) {

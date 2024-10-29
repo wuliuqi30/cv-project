@@ -1,9 +1,9 @@
 import { editSelectorNames } from '../../constants/constants';
-import { ReusableEditableSection } from './ReusableEditableSection';
+import { List } from '../utilityFunctions/List';
 
-export function CvSkillsSection({ skills, editSelector, onEdit }) {
+export function CvSkillsSection({ skills, editSelector }) {
 
-    const suppressOutput = true;
+    const suppressOutput = false;
     const editMode = editSelector.sectionName === editSelectorNames.skillsInfo ? true : false;
 
     if (!suppressOutput) {
@@ -14,33 +14,32 @@ export function CvSkillsSection({ skills, editSelector, onEdit }) {
         console.log(editSelector);
     }
 
-    const handleEditClick = () =>{
-        console.log("In CvSkillsSection.jsx click handler");
-        onEdit();
-    }
-   
+
     return (
         <div className='skills-section'>
-            <div className='cv-section-title'>Skills</div>
-            <ReusableEditableSection
-                sectionClassName="skills"
-                editSelectorIndex={editSelector.index}
-                handleEditClick={handleEditClick}>
+            <List
+                titleDiv={<div className='cv-section-title'>Skills</div>} 
+                listClass={"cv-first-level-list"}>
+        
+
+                
                     <div className='skills-subsection'>
-                     <b >Computer Skills: </b>{skills.
-                     filter(skill=> skill.skillType == 'computer').
-                     map((skill,index)=> {
-                        return (<span key={index}>{skill.skillName}{', '}</span>)
-                     })}
-                     </div>
-                     <div className='skills-subsection'>
-                     <b className='skills-title'>Languages: </b>{skills.
-                     filter(skill=> skill.skillType == 'language').
-                     map((skill,index)=> {
-                        return (<span key={index}>{skill.skillName}{', '} </span>)
-                     })}
-                      </div>
-            </ReusableEditableSection>
+                        <b >Computer Skills: </b>{skills.
+                            filter(skill => skill.skillType == 'computer').
+                            map((skill, index) => {
+                                return (<span key={index}>{skill.skillName}{', '}</span>)
+                            })}
+                    </div>
+                    <div className='skills-subsection'>
+                        <b className='skills-title'>Languages: </b>{skills.
+                            filter(skill => skill.skillType == 'language').
+                            map((skill, index) => {
+                                return (<span key={index}>{skill.skillName}{', '} </span>)
+                            })}
+                    </div>
+            
+                
+            </List>
         </div>
 
     )

@@ -32,7 +32,7 @@ export function CvExperienceSection({ experiences, editSelector, onEdit, changeE
             >
             <List 
             titleDiv={<div className='cv-section-title'>Experiences</div>}
-            listClass={"experience-list"}
+            listClass={"cv-first-level-list"}
             >
                 {experiences.map((experience) => {
                     if (!suppressOutput) {
