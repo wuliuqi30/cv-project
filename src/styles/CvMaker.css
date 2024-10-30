@@ -119,24 +119,27 @@ li {
   z-index: -5;
 }
 
-.cv-photo{
+.profile-image{
   grid-column: 1 / 2;
   padding: 0px;
   align-self: center;
   justify-self: center;
  
   background-image: url('../assets/croppedpic.JPG');
-  background-size: contain; 
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents the image from repeating */
+  /* background-size: contain; 
+  background-position: center; 
+  background-repeat: no-repeat;  */
 
-  width: 120px;
-  height: 120px;
-
-  border-radius: 8px;
+  position: relative;
+  top: 4px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  
   border: 4px solid white;
 
-}
+} 
 
 .cv-heading {
   grid-column: 2 / 3;
@@ -367,7 +370,11 @@ li {
 
 .input-section-card {
   padding: 10px;
-  border: 2px solid green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid green; */
 }
 
 .edit-form {
@@ -380,8 +387,13 @@ li {
 }
 
 .edit-form-title {
+  padding: 5px;
   font-size: 2rem;
   color: var(--form-header-color);
+  width: 95%;
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 8px;
 }
 
 .stop-editing-button, .stop-editing-button-small{
@@ -399,12 +411,39 @@ li {
   padding: 10px;
   gap: 10px;
   align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .edit-form-heading-row-with-delete {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: center;
   gap: 30px;
+
+}
+
+.edit-form-item-button{
+  font-size: 1.2rem;
+  text-align: left;
+  width: 310px;
+  display: flex;
+  align-items: center;
+  
+}
+
+.edit-form-item-descrip{
+  width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.edit-form-item-date{
+  /* width: 100px; */
+  display: inline-block;
 }
 
 .delete-item-button {
@@ -413,7 +452,11 @@ li {
   color: red;
   padding: 0px;
   border: 2px solid black;
+  margin-left: auto;
+  flex: 0 0 auto;
 }
+
+
 
 
 .add-experience-button {
@@ -423,7 +466,7 @@ li {
 
 .edit-cv-section {
   width: var(--edit-cv-section-width);
-  border: 2px solid red;
+  border: 2px solid black;
   display: flex;
   flex-direction: column;
   gap: var(--edit-section-gap);
@@ -439,8 +482,10 @@ label {
 
 .experience-form-heading {
   font-size: 1.2rem;
+  
 
 }
+
 
 .bullets-fieldset {
   display: flex;
@@ -640,10 +685,9 @@ input.editable-section-text {
   color: #888;
 }
 
-/* Target medium smartphones */
-@media only screen and (max-width: 768px) {
+/* @media only screen and (max-width: 768px) {
   #root{
-    /* Styles for medium smartphones and smaller devices */
+   
     flex-direction: column;
     align-items: center;
     
@@ -656,4 +700,4 @@ input.editable-section-text {
     overflow-x: auto;
     margin-left: 140px;
   }
-}
+} */

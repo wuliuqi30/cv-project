@@ -87,8 +87,11 @@ export function EducationForm({
                                     <button
                                         id={education.id}
                                         onClick={clickEducationFormHandler}
-                                        className={"education-form-heading"}
-                                        key={education.id}>{education.school} started {format(education.startDate, "MMM/yy")}
+                                        className={"edit-form-item-button"}
+                                        key={education.id}>
+                                        <span className='edit-form-item-descrip'>
+                                            {education.school}
+                                        </span> finished {education.endDate != null && <span className='edit-form-item-date'>{format(education.endDate, "MMM/yy")}</span>}
                                     </button>
                                     <button id={index} onClick={deleteExperienceHandler} className='delete-item-button'>Delete</button>
                                 </div>

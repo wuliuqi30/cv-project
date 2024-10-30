@@ -3,7 +3,7 @@ import { List } from '../utilityFunctions/List';
 
 export function CvSkillsSection({ skills, editSelector }) {
 
-    const suppressOutput = false;
+    const suppressOutput = true;
     const editMode = editSelector.sectionName === editSelectorNames.skillsInfo ? true : false;
 
     if (!suppressOutput) {

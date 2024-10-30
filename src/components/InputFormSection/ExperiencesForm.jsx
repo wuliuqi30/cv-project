@@ -184,8 +184,12 @@ export function ExperiencesForm({
                                     <button
                                         id={experience.id}
                                         onClick={clickExperienceFormHandler}
-                                        className={"experience-form-heading"}
-                                        key={experience.id}>{experience.company} started {format(experience.startDate, "MMM/yy")}
+                                        className={"edit-form-item-button"}
+                                        key={experience.id}>{
+                                            <span className='edit-form-item-descrip'>
+                                                {experience.company} 
+                                                </span>} began {<span className='edit-form-item-date'>{format(experience.startDate, "MMM/yy")}</span>} 
+                                             
                                     </button>
                                     <button id={index} onClick={deleteExperienceHandler} className='delete-item-button'>Delete</button>
                                 </div>

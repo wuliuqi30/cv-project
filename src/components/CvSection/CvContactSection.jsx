@@ -4,7 +4,7 @@ import { List } from '../utilityFunctions/List';
 
 export function CvContactSection({ contactInfo, editSelector }) {
 
-    const suppressOutput = false;
+    const suppressOutput = true;
     const editMode = editSelector.sectionName === editSelectorNames.contactInfo ? true : false;
 
     if (!suppressOutput) {

@@ -10,6 +10,8 @@ import {
   defaultSkillsInfo
 } from '../data/defaultData';
 
+import { PictureForm } from './InputFormSection/PictureForm';
+
 import { GeneralInfoForm } from './InputFormSection/GeneralInfoForm';
 import { CvHeading } from './CvSection/CvHeading';
 
@@ -24,11 +26,11 @@ import { CvContactSection } from './CvSection/CvContactSection';
 
 import { CvSkillsSection } from './CvSection/CvSkillsSection';
 import { SkillsForm } from './InputFormSection/SkillsForm';
-
+import defaultProfilePic from '../assets/croppedpic.jpg';
 
 function CvMaker() {
 
-  const suppressOutput = true;
+  const suppressOutput = false;
   // this console.log runs every time the component renders
   // console.log("during render:");
 
@@ -48,12 +50,32 @@ function CvMaker() {
   const nothingBeingSelected = { sectionName: editSelectorNames.none, index: -1 };
   const [editSelectorMain, setEditSelectorMain] = useState(nothingBeingSelected);
 
-  // Handle Cancel Form Data
-  const handleCancelEditInput = () => {
-    setEditSelectorMain(nothingBeingSelected);
+
+
+  // Profile Picture; 
+
+  const [selectedImage, setSelectedImage] = useState(defaultProfilePic);
+
+ 
+
+  const handleImageChange = (e) => {
+    
+    if (!suppressOutput) {
+      console.log("In Image Selection Change handler");
+      console.log("selectedImage is " + selectedImage);
+      console.log(e);
+    }
+ 
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      }
+
+      reader.readAsDataURL(file);
+    }
   }
-
-
   // ----------------------------- General Info -----------------------------------
   // General Info In CV:
   const [generalInfoCvDataObject, setGeneralInformationCvObject] = useState(defaultGeneralInfo);
@@ -65,15 +87,6 @@ function CvMaker() {
     setEditSelectorMain(nothingBeingSelected);
   }
 
-
-  // General Info in CV Edit Button Callback:
-  const handleGeneralInfoRelatedDataEditClick = () => {
-    // Essentially this sets edit mode true in the edit form. 
-    console.log("In CvMaker.jsx handleGeneralInfoRelatedDataEditClick, setting edit sector to general info")
-    console.log(generalInfoCvDataObject)
-    setEditSelectorMain({ sectionName: editSelectorNames.generalInfo, index: -1 });
-
-  }
 
 
   // ----------------------------- Experiences -----------------------------------
@@ -126,12 +139,6 @@ function CvMaker() {
     setEditSelectorMain(nothingBeingSelected);
   }
 
-  const handleContactInfoDataEditClick = (arg) => {
-    // Essentially this sets edit mode true in the edit form. 
-    console.log("---------Edit Button pressed on contact info!---------")
-    console.log(`arg is ${arg} type is ${typeof arg} converted to number is ${typeof Number(arg)}`)
-    setEditSelectorMain({ sectionName: editSelectorNames.contactInfo, index: Number(arg) });
-  }
 
   // ---------------Skills Info ---------------
 
@@ -187,14 +194,15 @@ function CvMaker() {
         <CvHeading
           firstName={generalInfoCvDataObject.firstName}
           lastName={generalInfoCvDataObject.lastName}
-          miniIntro={generalInfoCvDataObject.miniIntro} />
+          miniIntro={generalInfoCvDataObject.miniIntro}
+          selectedPhoto={selectedImage} />
         <div className="cv-left-column-background"></div>
         <div className='cv-left-info-column'>
 
           <CvContactSection
             contactInfo={contactInfoCvDataObject}
             editSelector={editSelectorMain}
-            onEdit={handleContactInfoDataEditClick}
+
           />
           <CvEducationSection
             educations={educationInfoCvDataObject}
@@ -224,6 +232,9 @@ function CvMaker() {
 
       {/* Edit Section */}
       <section className="edit-cv-section">
+        <div className="input-section-card">
+          <PictureForm handlePictureSelectionChange={handleImageChange} />
+        </div>
         <div className="input-section-card">
           <GeneralInfoForm
             editSelector={editSelectorMain}
