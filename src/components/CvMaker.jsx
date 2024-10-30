@@ -2,11 +2,13 @@ import '../styles/CvMaker.css';
 
 import { useState } from 'react';
 import { editSelectorNames } from '../constants/constants';
-import { defaultGeneralInfo, 
-  defaultExperiencesInfo, 
-  defaultEducationInfo, 
+import {
+  defaultGeneralInfo,
+  defaultExperiencesInfo,
+  defaultEducationInfo,
   defaultContactInfo,
-  defaultSkillsInfo } from '../data/defaultData';
+  defaultSkillsInfo
+} from '../data/defaultData';
 
 import { GeneralInfoForm } from './InputFormSection/GeneralInfoForm';
 import { CvHeading } from './CvSection/CvHeading';
@@ -53,8 +55,8 @@ function CvMaker() {
 
 
   // ----------------------------- General Info -----------------------------------
- // General Info In CV:
- const [generalInfoCvDataObject, setGeneralInformationCvObject] = useState(defaultGeneralInfo);
+  // General Info In CV:
+  const [generalInfoCvDataObject, setGeneralInformationCvObject] = useState(defaultGeneralInfo);
 
 
   // Handle Submit Form Data
@@ -71,13 +73,13 @@ function CvMaker() {
     console.log(generalInfoCvDataObject)
     setEditSelectorMain({ sectionName: editSelectorNames.generalInfo, index: -1 });
 
-  } 
+  }
 
 
   // ----------------------------- Experiences -----------------------------------
 
-// Experience
-const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperiencesInfo);
+  // Experience
+  const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperiencesInfo);
 
 
   // Handle Submit Form Data
@@ -87,7 +89,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
   }
   // Cancel handled by one common function
 
-  
+
 
   // Experience in CV Edit Button Callback:
   const handleExperiencesRelatedDataEditClick = (arg) => {
@@ -131,7 +133,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
     setEditSelectorMain({ sectionName: editSelectorNames.contactInfo, index: Number(arg) });
   }
 
-    // ---------------Skills Info ---------------
+  // ---------------Skills Info ---------------
 
   // Education In CV:
   const [skillsInfoCvDataObject, setSkillsInfoCvObject] = useState(defaultSkillsInfo);
@@ -144,8 +146,9 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
     // Delete any skills that are empty
     setSkillsInfoCvObject((prevState) => {
       return prevState.filter((skill) => {
-          return skill.skillName != '' });
-  });
+        return skill.skillName != ''
+      });
+    });
 
 
     setEditSelectorMain(nothingBeingSelected);
@@ -168,7 +171,7 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
   //   setEditSelectorMain({sectionName: editSelectorNames.experienceInfo, index: experiencesCvDataObject.length});
   // }
 
-  if (!suppressOutput){
+  if (!suppressOutput) {
     console.log('educationInfoCvDataObject is: ')
     console.log(educationInfoCvDataObject);
     console.log("edit selector is: ");
@@ -180,13 +183,14 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
       {/* CV */}
       <section className="cv">
 
+        <div className="cv-top-banner"></div>
         <CvHeading
           firstName={generalInfoCvDataObject.firstName}
           lastName={generalInfoCvDataObject.lastName}
-          editSelector={editSelectorMain}
-          onEdit={handleGeneralInfoRelatedDataEditClick}
-        />
-        <div className='cv-left-column'>
+          miniIntro={generalInfoCvDataObject.miniIntro} />
+        <div className="cv-left-column-background"></div>
+        <div className='cv-left-info-column'>
+
           <CvContactSection
             contactInfo={contactInfoCvDataObject}
             editSelector={editSelectorMain}
@@ -204,12 +208,16 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
           />
 
         </div>
-        <CvExperienceSection
-          experiences={experiencesCvDataObject}
-          editSelector={editSelectorMain}
-          onEdit={handleExperiencesRelatedDataEditClick}
-          changeExperienceHandler={setExperiencesCvObject}
-        />
+
+        <div className='cv-right-info-column'>
+
+          <CvExperienceSection
+            experiences={experiencesCvDataObject}
+            editSelector={editSelectorMain}
+            onEdit={handleExperiencesRelatedDataEditClick}
+            changeExperienceHandler={setExperiencesCvObject}
+          />
+        </div>
 
 
       </section>
@@ -219,46 +227,46 @@ const [experiencesCvDataObject, setExperiencesCvObject] = useState(defaultExperi
         <div className="input-section-card">
           <GeneralInfoForm
             editSelector={editSelectorMain}
-            changeEditSelector = {setEditSelectorMain}
+            changeEditSelector={setEditSelectorMain}
             handleFormClose={handleGeneralInfoDataFormClose}
             generalInfo={generalInfoCvDataObject}
             generalInfoChangeHandler={setGeneralInformationCvObject} />
 
         </div>
-        
+
         <div className="input-section-card">
           <SkillsForm
             editSelector={editSelectorMain}
-            changeEditSelector = {setEditSelectorMain}
+            changeEditSelector={setEditSelectorMain}
             handleFormClose={handleSkillsInputDataFormClose}
-            skillsInfo= {skillsInfoCvDataObject}
+            skillsInfo={skillsInfoCvDataObject}
             skillsInfoChangeHandler={setSkillsInfoCvObject} />
 
         </div>
         <div className="input-section-card">
           <ContactForm
             editSelector={editSelectorMain}
-            changeEditSelector = {setEditSelectorMain}
+            changeEditSelector={setEditSelectorMain}
             handleFormClose={handleContactInputDataFormClose}
-            contactFormInfo= {contactInfoCvDataObject}
+            contactFormInfo={contactInfoCvDataObject}
             contactFormChangeHandler={setContactInfoCvObject} />
 
         </div>
         <div className="input-section-card">
           <ExperiencesForm
             editSelector={editSelectorMain}
-            changeEditSelector = {setEditSelectorMain}
+            changeEditSelector={setEditSelectorMain}
             handleFormClose={handleExperiencesFormClose}
-            experienceInfo= {experiencesCvDataObject}
+            experienceInfo={experiencesCvDataObject}
             experienceInfoChangeHandler={setExperiencesCvObject}
           />
         </div>
         <div className="input-section-card">
           <EducationForm
             editSelector={editSelectorMain}
-            changeEditSelector = {setEditSelectorMain}
+            changeEditSelector={setEditSelectorMain}
             handleFormClose={handleEducationFormClose}
-            educationFormInfo= {educationInfoCvDataObject}
+            educationFormInfo={educationInfoCvDataObject}
             educationFormChangeHandler={setEducationInfoCvObject}
           />
         </div>

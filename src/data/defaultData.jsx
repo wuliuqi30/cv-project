@@ -2,6 +2,7 @@
 export const defaultGeneralInfo = {
     firstName: 'Hersh',
     lastName: 'Sangani',
+    miniIntro: 'Experienced Systems Engineer with Master\'s degree in Electrical and Computer Engineering; Advanced Chinese Speaker'
 }
 
 export const defaultContactInfo = {

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function List({ titleDiv, listClass, children }) {
     //handleAddItemClick,addItemText temporarily disable
     const suppressOutput = true;
@@ -11,7 +13,7 @@ export function List({ titleDiv, listClass, children }) {
         <div className="list">
             {titleDiv}
             <ul className={listClass}>
-                {children.map((child, index) => {
+                {React.Children.map(children,(child, index) => {
                     return (
                     <li key={index}>
                         {child}
@@ -19,9 +21,7 @@ export function List({ titleDiv, listClass, children }) {
                     )
                 })}
             </ul>
-            {/* <button className="add-li-button" onClick={handleAddItemClick}>
-                {addItemText}
-            </button> */}
+            
         </div>
     )
 }

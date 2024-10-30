@@ -52,13 +52,20 @@ export function GeneralInfoForm({
 
         <>
 
-            <button 
+            {!editMode && <button
                 onClick={clickGeneralInfoFormHandler}
                 className={"edit-form-title"}>
                 Click to edit General Information
-                </button>
+            </button>}
+            {editMode && <button
+                className='edit-form-title stop-editing-button'
+                onClick={handleFormClose}
+            >Click to stop editing
+            </button>}
+
             {editMode &&
-                <form >
+
+                <form className="edit-form" >
                     <BasicTextInputRow
                         labelText={"First Name"}
                         placeholderText={"Type First Name Here"}
@@ -75,10 +82,15 @@ export function GeneralInfoForm({
                         htmlForIdentifier={"lastName"}
                         disabled={!editMode}
                         required />
+                    <BasicTextInputRow
+                        labelText={"Introduction:"}
+                        placeholderText={"Type Intro Here"}
+                        handleInputTextChange={handleGeneralInfoChange}
+                        inputText={!editMode ? "" : generalInfo.miniIntro}
+                        htmlForIdentifier={"miniIntro"}
+                        disabled={!editMode}
+                        required />
 
-                    <CloseButton
-                        closeCallBack={handleFormClose}
-                    />
                 </form>}
 
         </>

@@ -2,11 +2,11 @@ import { editSelectorNames } from '../../constants/constants';
 import { CloseButton } from './CloseButton';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export function SkillsForm({ 
-    editSelector, 
+export function SkillsForm({
+    editSelector,
     changeEditSelector,
-    handleFormClose, 
-    skillsInfo, 
+    handleFormClose,
+    skillsInfo,
     skillsInfoChangeHandler }) {
 
     const suppressOutput = true;
@@ -72,13 +72,16 @@ export function SkillsForm({
 
     return (
         <>
-            <button 
-            onClick={clickFormHandler} 
-            className='edit-form-title'>
+            {!editMode && <button
+                onClick={clickFormHandler}
+                className='edit-form-title'>
                 Click to edit skills
-                </button>
-
-
+            </button>}
+            {editMode && <button
+                className='edit-form-title stop-editing-button'
+                onClick={handleFormClose}
+            >Click to stop editing
+            </button>}
 
 
             {editMode &&
@@ -138,9 +141,7 @@ export function SkillsForm({
                             )}
 
                     </fieldset>
-                    <CloseButton
-                        closeCallBack={handleFormClose}
-                    />
+
                     <button
                         onClick={handleAddSkill}
                     >Click to Add Skill</button>

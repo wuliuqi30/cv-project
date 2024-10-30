@@ -12,7 +12,7 @@ export function ExperiencesForm({
     experienceInfo,
     experienceInfoChangeHandler }) {
 
-    const suppressOutput = false;
+    const suppressOutput = true;
 
     if (!suppressOutput) {
         console.log("Re-rendering Experience Form: ")
@@ -166,7 +166,7 @@ export function ExperiencesForm({
         console.log(`editSelector is ${editSelector.index} and editMode is ${editMode}`)
         console.log(editSelector.index);
         console.log("experienceInfo is: ");
-        console.table(experienceInfo);
+        console.log(experienceInfo);
 
     }
 
@@ -192,6 +192,11 @@ export function ExperiencesForm({
                             }
                             {(editMode && experience.id == editSelector.index) &&
                                 <form className='edit-form'>
+                                     <button
+                                        className='edit-form-title stop-editing-button-small'
+                                        onClick={handleFormClose}
+                                    >Click to stop editing
+                                    </button>
                                     <BasicTextInputRow
                                         labelText={"Company Name"}
                                         placeholderText={"?"}
@@ -273,11 +278,7 @@ export function ExperiencesForm({
                                             )}
                                         <button type='button' onClick={addBulletClickHandler}>Add Duty</button>
                                     </fieldset>
-
-
-                                    <CloseButton
-                                        closeCallBack={handleFormClose}
-                                    />
+                                   
                                 </form>
                             }
                         </>

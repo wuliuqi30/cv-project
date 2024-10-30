@@ -1,6 +1,4 @@
-import { ReusableEditableSection } from './ReusableEditableSection';
-
-export function CvHeading({ firstName, lastName, editSelector, onEdit, }) {
+export function CvHeading({ firstName, lastName, miniIntro }) {
 
     const suppressDebugOutput = true;
 
@@ -10,14 +8,11 @@ export function CvHeading({ firstName, lastName, editSelector, onEdit, }) {
 
     return (
         <>
-            <ReusableEditableSection
-                sectionClassName="cv-heading"
-                editSelectorIndex={editSelector.index}
-                handleEditClick={onEdit}>
-
-                {firstName + ' ' + lastName}
-
-            </ReusableEditableSection>
+            <div className="cv-photo"></div>
+            <div className={"cv-heading"}>
+                <div className={"cv-heading-name"}>{firstName + ' ' + lastName}</div>
+                <div className={"cv-heading-intro"}>{miniIntro}</div>
+            </div >
 
 
         </>

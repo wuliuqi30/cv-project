@@ -1,4 +1,4 @@
-html{
+html {
   white-space-collapse: preserve;
   --description-font-size: 12px;
   --edit-cv-section-width: 500px;
@@ -6,6 +6,8 @@ html{
 
   --cv-width: 700px;
   --cv-height: 1000px;
+  --top-row-height: 150px;
+  --bottom-row-height: 900px;
   --left-column-width: 250px;
   --right-column-width: calc(var(--cv-width) - var(--left-column-width));
   --edit-submit-button-font-size: 10px;
@@ -30,7 +32,8 @@ html{
   --edit-button-color: white;
   --edit-button-bg-color: orange;
   --add-item-bg-color: blue;
-
+ --stop-editing-button-bg-color: #fecaca;
+  --stop-editing-button-color: #44403c;
   --form-header-color: blue;
 
 
@@ -38,18 +41,21 @@ html{
   --heading-color: #fff;
   --heading-bg-color: #0284c7;
 
+
+  --left-side-bg-color: #e2e8f0;
+  --right-side-bg-color: white;
   --cv-section-bg-color: #082f49;
-  --cv-section-color:#eff6ff;
+  --cv-section-color: #eff6ff;
 
   /* Fonts */
   font-size: var(--description-font-size);
   font-family: Arial, sans-serif;
   --experience-section-title-font-size: 1.7rem;
-  --experience-info-heading-font-size: 1.3rem;
+  --experience-info-heading-font-size: 1.1rem;
   --experience-bullet-font-size: 1rem;
   --input-form-text-size: 1.4rem;
   --input-dropdown-size: 2.3rem;
-
+  --list-index: 10px;
 
   /* Input Information Cards */
   --input-card-padding: 20px;
@@ -62,17 +68,20 @@ html{
 
   text-align: center;
 
-  display:flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
   gap: 30px;
-  
+
 }
 
-h2{
+h2 {
   font-size: 2rem;
 }
 
 
-ul{
+ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -85,121 +94,228 @@ li {
 }
 
 /* ------------------ CV Itself ------------------*/
-.cv{
+.cv {
   width: var(--cv-width);
   height: var(--cv-height);
   display: grid;
-  grid-template-rows: 150px 900px;
+  grid-template-rows: var(--top-row-height) var(--bottom-row-height) ;
   grid-template-columns: var(--left-column-width) var(--right-column-width);
   border: 2px solid black;
   margin-left: 40px;
+
+  box-sizing: content-box;
+}
+
+.cv-top-banner{
+
+  position: absolute;
+  grid-row: 1 / 2;
+  grid-column: 1 / 3;
+  background-color: var(--cv-section-bg-color);
+  height: 100px;
+  width: var(--cv-width);
+
+  top: 100px;
+  z-index: -5;
+}
+
+.cv-photo{
+  grid-column: 1 / 2;
+  padding: 0px;
+  align-self: center;
+  justify-self: center;
+ 
+  background-image: url('../assets/croppedpic.JPG');
+  background-size: contain; 
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+
+  width: 120px;
+  height: 120px;
+
+  border-radius: 8px;
+  border: 4px solid white;
+
+}
+
+.cv-heading {
+  grid-column: 2 / 3;
+  
+  color: var(--heading-color);
+  position:relative;
+  top: 30px;
+}
+
+.cv-heading-name{
+  font-size: 3rem;
+}
+
+.cv-heading-intro{
+  font-size: var(--description-font-size);
 }
 
 
-.list{
-  display:flex;
+.cv-left-info-column {
+  grid-column: 1 / 2;
+}
+
+.cv-left-column-background {
+  width: var(--left-column-width);
+  height:var(--cv-height);
+  position: absolute;
+
+  grid-row: 1 / 3;
+  grid-column: 1 / 2;
+  z-index: -10;
+  background-color: var(--left-side-bg-color);
+  position: absolute;
+
+}
+
+.cv-right-info-column {
+  
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+ 
+
+}
+/* 
+.cv-right-column-background {
+  width: var(--right-column-width);
+  height:var(--bottom-row-height);
+  position: absolute;
+  height: 100%;
+
+  grid-row: 1 / 3;
+  grid-column: 2 / 3;
+  z-index: -10;
+  background-color:orange;
+  
+
+} */
+
+
+
+.list {
+  display: flex;
   flex-direction: column;
   /* border: 2px solid black; */
   padding: var(--list-padding);
-  position:relative;
+  position: relative;
 }
 
-
-.cv-section-title{
+.cv-section-title {
   background-color: var(--cv-section-bg-color);
   color: var(--cv-section-color);
   font-size: var(--experience-section-title-font-size);
+
+  margin: 5px;
+  border-radius: 8px;
+  border: 2px solid white;
+  /* Blue border */
+  outline: 1px solid var(--cv-section-bg-color);
+  /* White outline */
+  outline-offset: 2px;
+
 }
 
-.experience-info-heading{
+
+.cv-first-level-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 4px;
+  margin-left: var(--list-index);
+}
+
+
+.experience-info-heading {
   /* color: green; */
   /* border: 2px solid green; */
   font-size: var(--experience-info-heading-font-size);
   text-align: left;
 }
 
-.experience-list{
+.experience-list {
   padding: 5px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.education-info-heading{
+.education-info-heading {
   /* color: green; */
   /* border: 2px solid green; */
   font-size: var(--description-font-size);
   text-align: left;
 }
 
-.education-list{
+.education-list {
   padding: 5px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.experience-bullet{
+.experience-bullet {
   /* color: blue; */
   /* border: 2px solid blue; */
   font-size: var(--experience-bullet-font-size);
   text-align: left;
 
-  
+
 }
 
 
 
-.experience-section{
+.experience-section {
   grid-row: 2 / 3;
   grid-column: 2 / 3;
 }
 
-.experience-bullet-list{
+.experience-bullet-list {
   padding-left: 15px;
   list-style-type: disc;
+  margin-left:var(--list-index);
 }
 
-.cv-left-column{
+.cv-left-column,
+.cv-right-column {
   grid-row: 2 / 3;
-  grid-column: 1 / 2;
-
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 
-.education-section{
-  
-}
 
-.contact-section{
 
-}
+.education-section {}
 
-.contact{
+.contact-section {}
+
+.contact {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 10px;
 }
 
-.contact-bullet{
+.contact-bullet {
   font-style: italic;
   text-align: left;
 }
 
-.address{
-  display:flex;
+.address {
+  display: flex;
   flex-direction: column;
 }
 
-.skills-paragraph{
+.skills-paragraph {
   font-size: var(--description-font-size);
 }
 
-.skills-subsection{
+.skills-subsection {
   text-align: left;
   padding: 5px;
 }
@@ -207,9 +323,7 @@ li {
 
 
 
-.edit-education-form{
-
-}
+.edit-education-form {}
 
 .logo {
   height: 6em;
@@ -217,34 +331,30 @@ li {
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.editable-section{
-  position:relative;
-}
-
-.cv-heading{
-  grid-column: 1 / 3;
-  font-size: 3rem;
-  color: var(--heading-color);
-  background-color: var(--heading-bg-color);
+.editable-section {
+  position: relative;
 }
 
 
-.cv-edit-button{
+
+.cv-edit-button {
   width: 50px;
   height: 30px;
   position: absolute;
   left: 100%;
   top: 0;
-  z-index: 1000; 
+  z-index: 1000;
   border: 2px solid black;
-  
+
 }
 
 
@@ -255,25 +365,35 @@ li {
 
 /* ------------------ Input Form Part ----------------------------------*/
 
-.input-section-card{
+.input-section-card {
   padding: 10px;
   border: 2px solid green;
 }
 
-.edit-form{
+.edit-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   border: 2px solid black;
+  margin: 10px;
+  padding: 10px;
 }
 
-.edit-form-title{
+.edit-form-title {
   font-size: 2rem;
   color: var(--form-header-color);
 }
 
+.stop-editing-button, .stop-editing-button-small{
+  background-color: var(--stop-editing-button-bg-color);
+  color: var(--stop-editing-button-color);
+}
+.stop-editing-button-small{
+  font-size: inherit;
+}
 
-.edit-form-list{
+
+.edit-form-list {
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -281,13 +401,13 @@ li {
   align-items: center;
 }
 
-.edit-form-heading-row-with-delete{
+.edit-form-heading-row-with-delete {
   display: flex;
   justify-content: space-around;
   gap: 30px;
 }
 
-.delete-item-button{
+.delete-item-button {
   width: 50px;
   height: 30px;
   color: red;
@@ -296,12 +416,12 @@ li {
 }
 
 
-.add-experience-button{
+.add-experience-button {
   width: 140px;
   background-color: var(--add-item-bg-color);
 }
 
-.edit-cv-section{
+.edit-cv-section {
   width: var(--edit-cv-section-width);
   border: 2px solid red;
   display: flex;
@@ -311,23 +431,24 @@ li {
   flex: 1 0 auto;
 }
 
-label{
+label {
   display: inline-block;
   white-space: nowrap;
 
 }
-.experience-form-heading{
+
+.experience-form-heading {
   font-size: 1.2rem;
 
 }
 
-.bullets-fieldset{
-  display: flex; 
+.bullets-fieldset {
+  display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.bullets-with-delete{
+.bullets-with-delete {
   display: flex;
 
 }
@@ -340,7 +461,7 @@ label{
   flex: 0 0 auto;
 }
 
-.bullet-delete{
+.bullet-delete {
   width: 20%;
   flex: 0 0 auto;
   background-color: green;
@@ -349,99 +470,103 @@ label{
 .custom-textarea {
   font-family: Arial, sans-serif !important;
   width: 100%;
-  
+
 }
 
 
 
 
 
-.basic-form-input-row{
-  display:flex;
+.basic-form-input-row {
+  display: flex;
   gap: 4px;
   font-size: var(--input-form-text-size);
 }
 
-.form-input-text-size{
-  font-size:  var(--input-form-text-size);
+.form-input-text-size {
+  font-size: var(--input-form-text-size);
 }
 
-.date-block{
-  display:flex;
+.date-block {
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-input{
-  font-size:  var(--input-form-text-size);
+input {
+  font-size: var(--input-form-text-size);
 }
 
 
 /* React Date Picker */
 .react-datepicker-wrapper {
   width: 70px;
-  
-  font-size:  var(--input-form-text-size) !important;
+
+  font-size: var(--input-form-text-size) !important;
 }
 
-.react-datepicker__input-container{
-  font-size:  var(--input-form-text-size);
+.react-datepicker__input-container {
+  font-size: var(--input-form-text-size);
 }
+
 /* Adjust the month and year dropdown */
 .react-datepicker__month-select,
 .react-datepicker__year-select {
-    font-size:  var(--input-form-text-size); /* Increase font size for month and year selects */
-    padding: 0.9rem; /* Add padding */
+  font-size: var(--input-form-text-size);
+  /* Increase font size for month and year selects */
+  padding: 0.9rem;
+  /* Add padding */
 }
 
-.react-datepicker__header.react-datepicker-year-header{
-  font-size:  var(--input-form-text-size);
+.react-datepicker__header.react-datepicker-year-header {
+  font-size: var(--input-form-text-size);
 }
 
 /* Style for each month */
 .react-datepicker__month {
- 
-  font-size:  var(--input-form-text-size);
+
+  font-size: var(--input-form-text-size);
 }
 
-.submit-cancel-button-row{
+.submit-cancel-button-row {
   display: flex;
   gap: 5px;
   margin-left: auto;
 }
 
 
-.editable-section-text{
-  color:#0e0ad1;
+.editable-section-text {
+  color: #0e0ad1;
   font-size: 28px;
   width: 200px;
   text-align: start;
 }
 
-input.editable-section-text{
+input.editable-section-text {
   border: 2px solid black;
 
 }
 
 
-.editable-section-edit-button,.editable-section-submit-button{
+.editable-section-edit-button,
+.editable-section-submit-button {
   font-size: var(--edit-submit-button-font-size);
   width: 70px;
-  position:absolute;
-  left:100%;
+  position: absolute;
+  left: 100%;
 }
 
-.editable-section-edit-button{
+.editable-section-edit-button {
   background-color: var(--edit-button-bg-color);
   color: var(--edit-button-color);
 }
 
-.editable-section-submit-button{
+.editable-section-submit-button {
   background-color: var(--submit-button-bg-color);
   color: var(--submit-button-color);
 }
 
-.skills-fieldset{
+.skills-fieldset {
   display: grid;
   grid-template-columns: var(--skill-list-grid-left) var(--skill-list-grid-center) var(--skill-list-grid-right) var(--skill-list-grid-deletecolumn);
   grid-auto-rows: var(--skills-list-grid-row-height);
@@ -451,13 +576,13 @@ input.editable-section-text{
 }
 
 
-.skill-bullet{
+.skill-bullet {
   display: flex;
   gap: 3px;
   justify-content: space-around;
 }
 
-.skill-list-column-header{
+.skill-list-column-header {
   width: 100%;
   font-size: var(--input-form-text-size);
   text-align: left;
@@ -473,19 +598,19 @@ input.editable-section-text{
   text-align: left;
 }
 
-.skill-dropdown{
+.skill-dropdown {
   width: var(--skill-list-dropdown-width);
   height: var(--input-dropdown-size);
   font-size: var(--input-form-text-size);
   text-align: center;
 }
 
-.skill-years-input{
+.skill-years-input {
   width: var(--skill-list-yrs-exp-width);
   text-align: center;
 }
 
-.skill-delete-button{
+.skill-delete-button {
   width: var(--skill-list-delete-width);
 }
 
@@ -495,6 +620,7 @@ input.editable-section-text{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -512,4 +638,22 @@ input.editable-section-text{
 
 .read-the-docs {
   color: #888;
+}
+
+/* Target medium smartphones */
+@media only screen and (max-width: 768px) {
+  #root{
+    /* Styles for medium smartphones and smaller devices */
+    flex-direction: column;
+    align-items: center;
+    
+   
+  }
+
+  .edit-cv-section{
+  
+    width: 400px;
+    overflow-x: auto;
+    margin-left: 140px;
+  }
 }

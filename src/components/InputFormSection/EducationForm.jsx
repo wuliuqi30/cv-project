@@ -83,7 +83,7 @@ export function EducationForm({
                     return (
                         <>
                             {education.id != editSelector.index &&
-                                <div key = {index} className='edit-form-heading-row-with-delete'>
+                                <div key={index} className='edit-form-heading-row-with-delete'>
                                     <button
                                         id={education.id}
                                         onClick={clickEducationFormHandler}
@@ -93,9 +93,13 @@ export function EducationForm({
                                     <button id={index} onClick={deleteExperienceHandler} className='delete-item-button'>Delete</button>
                                 </div>
                             }
-                            {education.id == editSelector.index &&
-
-                                <form key = {index}  className='edit-form'>
+                            {(editMode && education.id == editSelector.index) &&
+                                <form key={index} className='edit-form'>
+                                    <button
+                                        className='edit-form-title stop-editing-button-small'
+                                        onClick={handleFormClose}
+                                    >Click to stop editing
+                                    </button>
                                     <BasicTextInputRow
                                         labelText={"School Name"}
                                         placeholderText={"?"}
@@ -171,9 +175,7 @@ export function EducationForm({
                                         </div>
 
                                     </div>
-                                    <CloseButton
-                                        closeCallBack={handleFormClose}
-                                    />
+
 
                                 </form>
                             }

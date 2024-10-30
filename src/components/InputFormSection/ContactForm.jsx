@@ -36,12 +36,18 @@ export function ContactForm({
 
     return (
         <>
-            <button
+            {!editMode && <button
                 className='edit-form-title'
                 onClick={clickFormHandler}
-            >
-                Click to edit Contact Info
-            </button>
+            >Click to edit contact info
+            </button>}
+
+
+            {editMode && <button
+                className='edit-form-title stop-editing-button'
+                onClick={handleFormClose}
+            >Click to stop editing
+            </button>}
 
             {editMode &&
                 <form onSubmit={handleFormClose} className='edit-form'>
@@ -77,9 +83,7 @@ export function ContactForm({
                         htmlForIdentifier={"email"}
                         disabled={!editMode}
                         required />
-                    <CloseButton
-                        closeCallBack={handleFormClose}
-                    />
+
                 </form>
 
             }
